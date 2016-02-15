@@ -3,12 +3,12 @@ require "csv"
 class TimeLoggerAdmin
 
   def initialize(employees_file_name = "files/employees.csv", clients_file_name = "files/clients.csv")
-    @employee_file_name = employees_file_name
+    @employees_file_name = employees_file_name
     @clients_file_name = clients_file_name
   end
 
   def add_employee(username, is_admin)
-    CSV.open(@employee_file_name, "ab") do |csv|
+    CSV.open(@employees_file_name, "ab") do |csv|
       csv << [username, is_admin]
     end
   end
@@ -19,15 +19,29 @@ class TimeLoggerAdmin
     end
   end
 
-  def all_employees_report(time_data)
+  def client_names
+    CSV.read(@clients_file_name).flatten
+  end
 
+  def employee_names
+    employee_data = CSV.read(@employees_file_name)
+    employee_data.collect(&:first)
+  end
+
+  def is_admin_from_user_name(username)
+    employee_data = CSV.read(@employees_file_name)
+    employee_data.each do |set|
+      if username.eql?(set[0])
+        return set[1]
+      end
+    end
   end
 
   def clear_files
     CSV.open(@clients_file_name, "w") do |csv|
     end
 
-    CSV.open(@employee_file_name, "w") do |csv|
+    CSV.open(@employees_file_name, "w") do |csv|
     end
   end
 

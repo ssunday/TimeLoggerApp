@@ -11,7 +11,7 @@ describe TimeLoggerAdmin do
 
   it "can add an employee to the file" do
     user_name = "sasunday"
-    admin = "no"
+    admin = "false"
     @admin.add_employee(user_name, admin)
     data = CSV.read(@employee_file_name)
     expect(data[0]).to eql [user_name, admin]

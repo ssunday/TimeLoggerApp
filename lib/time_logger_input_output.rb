@@ -1,3 +1,5 @@
+require 'date'
+
 module TimeLoggerInputOutput
 
   def display_menu(menu)
@@ -20,15 +22,16 @@ module TimeLoggerInputOutput
     puts "Sorry, but that username is not in our system."
   end
 
-  def specify_date_message
-    puts "Input date you wish to add hours worked for in day/month/year format."
-  end
-
   def bad_date_message
     puts "Sorry that date is invalid."
   end
 
   def specify_date
+    puts "Input date you wish to add hours worked for in day/month/year format."
+    current_date = Time.new
+    current_day = current_date.day.to_s
+    current_month = current_date.month.to_s
+    current_year = current_date.year.to_s
     date = gets.chomp
   end
 
@@ -42,14 +45,16 @@ module TimeLoggerInputOutput
     hours.to_i
   end
 
-  def timecode_message(available_timecodes)
+  def select_timecode(available_timecodes)
     puts "Choose one of the following time codes by selecting the number:"
     iterate_through_list_with_numbers(available_timecodes)
+    select_option(available_timecodes.length-1)
   end
 
-  def select_client_message(clients)
-    puts "Please select client :"
+  def select_client(clients)
+    puts "Please select client: "
     iterate_through_list_with_numbers(clients)
+    select_option(clients.length-1)
   end
 
   def select_option(menu_length)

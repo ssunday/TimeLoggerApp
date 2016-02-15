@@ -8,6 +8,8 @@ include TimeLoggerAppFunctions
 
 class TimeLoggerApp
 
+  AVAILABLE_TIMECODES = ["Billable Work", "Non-billable work", "PTO"]
+
   MENU_EMPLOYEE = ["Enter Hours", "Report Current Month's Time", "Log out"]
 
   MENU_ADMIN = ["Enter Hours", "Report Current Month's Time", \
@@ -20,8 +22,8 @@ class TimeLoggerApp
 
   def run
     welcome_message
-    username = get_username
-    is_admin = @admin.is_admin_from_user_name(username)
+    get_username
+    is_admin = @admin.is_admin_from_user_name(@username)
     if is_admin
       menu = MENU_ADMIN
     else
@@ -43,8 +45,15 @@ class TimeLoggerApp
     when (menu.length)
       @in_use = false
     when 1
-      specify_date_message
+      date = specify_date
       hours = hours_worked
+      timecode = AVAILABLE_TIMECODES[select_timecode(AVAILABLE_TIMECODES)-1]
+      if timecode.eql?("Billable Work")
+        client = select_client(@admin.client_names)
+      else
+        client = nil
+      end
+      @employee_data_logging.log_time(username: @username, date: date, hours: hours, timecode: timecode, client: client)
     when 3
       employee_data = get_employee_info
       @admin.add_employee(employee_data)
@@ -57,12 +66,11 @@ class TimeLoggerApp
 
 
   def get_username
-    username = input_username
-    while authorize_user(username, @admin.employee_names) == false
+    @username = input_username
+    while authorize_user(@username, @admin.employee_names) == false
       bad_user_name
-      username = input_username
+      @username = input_username
     end
-    return username
   end
 
 end

@@ -1,9 +1,15 @@
 module TimeLoggerInputOutput
 
-  MENU = ["Enter Hours", "Report Current Month's Time"]
+  MENU_EMPLOYEE = ["Enter Hours", "Report Current Month's Time"]
 
-  def display_menu
-    iterate_through_list_with_numbers(MENU)
+  MENU_ADMIN = ["Enter Hours", "Report Current Month's Time", "Add Employee" , "Add Client"]
+
+  def display_menu(is_admin)
+    if is_admin
+      iterate_through_list_with_numbers(MENU_ADMIN)
+    else
+      iterate_through_list_with_numbers(MENU_EMPLOYEE)
+    end
   end
 
   def welcome_message
@@ -55,9 +61,9 @@ module TimeLoggerInputOutput
 
   private
 
-  def iterate_through_list_with_numbers(list)
-    for counter in 1..(list.length + 1)
-      puts counter + ": "clients[list-1]
+  def iterate_through_list_with_numbers(specified_list)
+    for counter in 1..(specified_list.length)
+      puts "#{counter}: #{specified_list[counter-1]}"
     end
   end
 

@@ -3,8 +3,8 @@ require "time_logger_admin"
 describe TimeLoggerAdmin do
 
   before do
-    @employee_file_name = "employee_test.csv"
-    @client_file_name = "client_test.csv"
+    @employee_file_name = "spec/test_files/employee_test.csv"
+    @client_file_name = "spec/test_files/client_test.csv"
     @admin = TimeLoggerAdmin.new(@employee_file_name, @client_file_name)
     @admin.clear_files
   end

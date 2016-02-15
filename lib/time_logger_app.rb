@@ -4,7 +4,8 @@ include TimeLoggerInputOutput
 class TimeLoggerApp
 
   def run
-
+    welcome_message
+    #display_menu
   end
 
 end

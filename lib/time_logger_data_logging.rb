@@ -2,7 +2,7 @@ require "csv"
 
 class TimeLoggerDataLogging
 
-  def initialize(filename = "timelog.csv")
+  def initialize(filename = "files/timelog.csv")
     @time_log_file_name = filename
   end
 

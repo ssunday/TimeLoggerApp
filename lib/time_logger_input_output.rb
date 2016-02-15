@@ -32,12 +32,14 @@ module TimeLoggerInputOutput
     date = gets.chomp
   end
 
-  def hours_worked_message
-    puts "Hours Worked:"
-  end
-
   def hours_worked
-    gets.chomp.to_i
+    puts "Enter Hours Worked:"
+    hours = gets.chomp
+    while hours =~ /\A\d+\z/ ? false : true
+      puts "Please enter an integer."
+      hours = gets.chomp
+    end
+    hours.to_i
   end
 
   def timecode_message(available_timecodes)
@@ -62,6 +64,23 @@ module TimeLoggerInputOutput
 
   def bad_option
     puts "That is an invalid option. Please try again."
+  end
+
+  def get_employee_info
+    puts "Please enter employee's username."
+    username = gets.chomp
+    puts "Please enter true if they are admin and false if they are not."
+    is_admin = gets.chomp
+    while is_admin != "true" &&  is_admin != "false"
+      puts "Invalid option. Try again."
+      is_admin = gets.chomp
+    end
+    [username, is_admin]
+  end
+
+  def get_client_name
+    puts "Please enter the client's name."
+    gets.chomp
   end
 
   private

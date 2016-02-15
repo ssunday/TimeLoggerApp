@@ -22,36 +22,39 @@ class TimeLoggerApp
     welcome_message
     username = get_username
     is_admin = @admin.is_admin_from_user_name(username)
+    if is_admin
+      menu = MENU_ADMIN
+    else
+      menu = MENU_EMPLOYEE
+    end
     @in_use = true
     while @in_use
-      if is_admin
-        display_menu(MENU_ADMIN)
-        option = select_option(MENU_ADMIN.length - 1)
-        do_menu_option_admin(option)
-      else
-        display_menu(MENU_EMPLOYEE)
-        option = select_option(MENU_EMPLOYEE.length - 1)
-        do_menu_option_employee(option)
-      end
+      display_menu(menu)
+      option = select_option(menu.length - 1)
+      do_menu_option(menu, option)
     end
     end_message
   end
 
   private
 
-  def do_menu_option_employee(option)
+  def do_menu_option(menu, option)
     case option
-    when (MENU_EMPLOYEE.length)
+    when (menu.length)
       @in_use = false
+    when 1
+      specify_date_message
+      hours = hours_worked
+    when 3
+      employee_data = get_employee_info
+      @admin.add_employee(employee_data)
+    when 4
+      client_name = get_client_name
+      @admin.add_client(client_name)
     end
+
   end
 
-  def do_menu_option_admin(option)
-    case option
-    when (MENU_ADMIN.length)
-      @in_use = false
-    end
-  end
 
   def get_username
     username = input_username

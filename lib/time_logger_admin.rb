@@ -9,9 +9,9 @@ class TimeLoggerAdmin
   end
 
 
-  def add_employee(username, is_admin)
+  def add_employee(employee_data)
     CSV.open(@employees_file_name, "ab") do |csv|
-      csv << [username, is_admin]
+      csv << employee_data
     end
   end
 

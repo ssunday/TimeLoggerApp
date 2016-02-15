@@ -9,6 +9,12 @@ describe TimeLoggerAdmin do
     @admin.clear_files
   end
 
+  it "adds a default admin" do
+    default_admin = TimeLoggerAdmin.new(@employee_file_name, @client_file_name)
+    data = CSV.read(@employee_file_name)
+    expect(data[0]).to eql ["default_admin", "true"]
+  end
+
   it "can add an employee to the file" do
     user_name = "sasunday"
     admin = "false"

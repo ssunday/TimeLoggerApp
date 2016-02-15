@@ -1,23 +1,23 @@
 module TimeLoggerInputOutput
 
-  MENU_EMPLOYEE = ["Enter Hours", "Report Current Month's Time"]
-
-  MENU_ADMIN = ["Enter Hours", "Report Current Month's Time", "Add Employee" , "Add Client"]
-
-  def display_menu(is_admin)
-    if is_admin
-      iterate_through_list_with_numbers(MENU_ADMIN)
-    else
-      iterate_through_list_with_numbers(MENU_EMPLOYEE)
-    end
+  def display_menu(menu)
+    iterate_through_list_with_numbers(menu)
   end
 
   def welcome_message
     puts "Welcome to the Time Logger App. Please input your username."
   end
 
+  def end_message
+    puts "You have been logged out."
+  end
+
   def input_username
     gets.chomp
+  end
+
+  def bad_user_name
+    puts "Sorry, but that username is not in our system."
   end
 
   def specify_date_message
@@ -50,13 +50,18 @@ module TimeLoggerInputOutput
     iterate_through_list_with_numbers(clients)
   end
 
-  def select_option
+  def select_option(menu_length)
+    puts "Please select which option by choosing the number."
     option = gets.chomp
-    if option =~ /\A\d+\z/ ? false : true
-      return nil
-    else
-      return option.to_i
+    while option =~ /\A\d+\z/ ? false : true || option < 1 || option > menu_length
+      bad_option
+      option = gets.chomp
     end
+    option.to_i
+  end
+
+  def bad_option
+    puts "That is an invalid option. Please try again."
   end
 
   private

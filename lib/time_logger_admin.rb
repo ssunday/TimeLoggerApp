@@ -5,7 +5,9 @@ class TimeLoggerAdmin
   def initialize(employees_file_name = "files/employees.csv", clients_file_name = "files/clients.csv")
     @employees_file_name = employees_file_name
     @clients_file_name = clients_file_name
+    initialize_employee_file
   end
+
 
   def add_employee(username, is_admin)
     CSV.open(@employees_file_name, "ab") do |csv|
@@ -42,6 +44,21 @@ class TimeLoggerAdmin
     end
 
     CSV.open(@employees_file_name, "w") do |csv|
+    end
+  end
+
+  private
+
+  def default_admin
+    CSV.open(@employees_file_name, "ab") do |csv|
+      csv << ["default_admin", true]
+    end
+  end
+
+  def initialize_employee_file
+    if File.exist?(@employees_file_name) == false \
+      || CSV.read(@employees_file_name).length == 0
+      default_admin
     end
   end
 

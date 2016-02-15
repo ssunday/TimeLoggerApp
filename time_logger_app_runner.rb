@@ -1,4 +1,4 @@
-require_relative "time_logger_app.rb"
+require_relative "lib/time_logger_app.rb"
 class TimeLoggerAppRunner
 
   def initialize

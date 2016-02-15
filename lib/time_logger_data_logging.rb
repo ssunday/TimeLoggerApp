@@ -1,4 +1,5 @@
 require "csv"
+
 class TimeLoggerDataLogging
 
   def initialize(filename = "timelog.csv")
@@ -6,12 +7,13 @@ class TimeLoggerDataLogging
   end
 
   def log_time(args = {})
+    username = args[:username]
     date = args[:date]
     hours = args[:hours]
     timecode = args[:timecode]
     client = args.fetch(:client, nil)
     CSV.open(@time_log_file_name, "ab") do |csv|
-      csv << [date, hours, timecode, client]
+      csv << [username, date, hours, timecode, client]
     end
   end
 

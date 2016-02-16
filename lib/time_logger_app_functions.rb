@@ -11,18 +11,28 @@ module TimeLoggerAppFunctions
     false
   end
 
-  def user_is_admin(username, employee_and_admin)
-    employee_and_admin.each do |name_and_admin|
-      if username.eql?(name_and_admin[0])
-        return name_and_admin[1]
+  def time_worked_per_client(args = {})
+    client_hours = args[:client_hours]
+    hours = args[:hours]
+    clients = args[:clients]
+    client = args[:client]
+    for j in 0..clients.length
+      if client.eql?(clients[j])
+        client_hours[j] += hours
       end
     end
   end
 
-  # def time_worked_per_project_type(args ={})
-  #   username = args[:username]
-  #   date_collection = args[:date]
-  #   timecodes = args[:timecodes]
-  # end
+  def time_worked_per_project_type(args ={})
+    project_hours = args[:project_hours]
+    hours = args[:hours]
+    timecode = args[:timecode]
+    timecodes = args[:timecodes]
+    for i in 0..timecodes.length
+      if timecode.eql?(timecodes[i])
+        project_hours[i] += hours
+      end
+    end
+  end
 
 end

@@ -94,14 +94,14 @@ module TimeLoggerInputOutput
   end
 
   def display_hours_worked_per_project(timecodes, hours_worked_for_each)
-    puts "Hours worked per project type:"
+    puts "\nHours worked per project type:"
     for i in 0..(timecodes.length - 1)
       puts "#{timecodes[i]}: #{hours_worked_for_each[i]} hours."
     end
   end
 
   def display_hours_worked_per_client(client_names, hours_worked_for_each)
-    puts "Hours worked per client:"
+    puts "\nHours worked per client:"
     for i in 0..(client_names.length - 1)
       puts "#{client_names[i]}: #{hours_worked_for_each[i]} hours."
     end
@@ -110,6 +110,7 @@ module TimeLoggerInputOutput
   private
 
   def iterate_through_list_with_numbers(specified_list)
+    puts "\n"
     for counter in 1..(specified_list.length)
       puts "#{counter}: #{specified_list[counter-1]}"
     end

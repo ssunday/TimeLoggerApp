@@ -58,21 +58,31 @@ class TimeLoggerApp
       time_log = @employee_data_logging.read_data
       client_names = @admin.client_names
       project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
-      client_hours = Array.new(client_names.length,0)
+      client_hours = Array.new(client_names.length, 0)
       time_log.each do |row|
         if row[0].eql?(@username)
           date = row[1].split('/')
           if date[1].to_i == Date.today.month && date[2].to_i == Date.today.year
-            for i in 0..AVAILABLE_TIMECODES.length
-              if row[3].eql?(AVAILABLE_TIMECODES[i])
-                project_hours[i] += row[2].to_i
-              end
+            time_worked_per_project_type(project_hours: project_hours, hours: row[2].to_i, timecodes: AVAILABLE_TIMECODES, timecode: row[3])
+            if row[4] != nil
+              time_worked_per_client(client_hours: client_hours, hours: row[2].to_i, clients: client_names, client: row[4])
             end
-            for j in 0..client_names.length
-              if row[4].eql?(client_names[j])
-                client_hours[j] += row[2].to_i
-              end
-            end
+          end
+        end
+      end
+      display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
+      display_hours_worked_per_client(client_names, client_hours)
+    when 3
+      time_log = @employee_data_logging.read_data
+      client_names = @admin.client_names
+      project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
+      client_hours = Array.new(client_names.length,0)
+      time_log.each do |row|
+        date = row[1].split('/')
+        if date[1].to_i == Date.today.month && date[2].to_i == Date.today.year
+          time_worked_per_project_type(project_hours: project_hours, hours: row[2].to_i, timecodes: AVAILABLE_TIMECODES, timecode: row[3])
+          if row[4] != nil
+            time_worked_per_client(client_hours: client_hours, hours: row[2].to_i, clients: client_names, client: row[4])
           end
         end
       end
@@ -87,7 +97,6 @@ class TimeLoggerApp
     end
 
   end
-
 
   def get_username
     @username = input_username

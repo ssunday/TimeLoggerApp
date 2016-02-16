@@ -34,7 +34,7 @@ class TimeLoggerAdmin
     employee_data = CSV.read(@employees_file_name)
     employee_data.each do |set|
       if username.eql?(set[0])
-        return set[1]
+        return set[1].eql?("true")
       end
     end
   end

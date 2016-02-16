@@ -20,8 +20,7 @@ class TimeLoggerDataLogging
   def read_data
     CSV.read(@time_log_file_name)
   end
-
-
+  
   def clear_data
     CSV.open(@time_log_file_name, "w") do |csv|
     end

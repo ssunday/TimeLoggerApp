@@ -62,16 +62,12 @@ class TimeLoggerApp
       time_log.each do |row|
         if row[0].eql?(@username)
           date = row[1].split('/')
-          if date[1].to_i == Date.today.month && date[2].to_i == Date.today.year
-            time_worked_per_project_type(project_hours: project_hours, hours: row[2].to_i, timecodes: AVAILABLE_TIMECODES, timecode: row[3])
-            if row[4] != nil
-              time_worked_per_client(client_hours: client_hours, hours: row[2].to_i, clients: client_names, client: row[4])
-            end
-          end
+          collect_project_and_client_total_hours(month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i, client_names: client_names, \
+                                                  timecode: row[3], timecodes: AVAILABLE_TIMECODES, client: row[4], client_hours: client_hours, project_hours: project_hours)
         end
       end
       display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
-      display_hours_worked_per_client(client_names, client_hours)
+      display_hours_worked_per_client(@admin.client_names, client_hours)
     when 3
       time_log = @employee_data_logging.read_data
       client_names = @admin.client_names
@@ -79,12 +75,8 @@ class TimeLoggerApp
       client_hours = Array.new(client_names.length,0)
       time_log.each do |row|
         date = row[1].split('/')
-        if date[1].to_i == Date.today.month && date[2].to_i == Date.today.year
-          time_worked_per_project_type(project_hours: project_hours, hours: row[2].to_i, timecodes: AVAILABLE_TIMECODES, timecode: row[3])
-          if row[4] != nil
-            time_worked_per_client(client_hours: client_hours, hours: row[2].to_i, clients: client_names, client: row[4])
-          end
-        end
+        collect_project_and_client_total_hours(month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i, client_names: client_names,\
+                                                timecode: row[3], timecodes: AVAILABLE_TIMECODES, client: row[4], client_hours: client_hours, project_hours: project_hours)
       end
       display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
       display_hours_worked_per_client(client_names, client_hours)
@@ -95,7 +87,6 @@ class TimeLoggerApp
       client_name = get_client_name
       @admin.add_client(client_name)
     end
-
   end
 
   def get_username

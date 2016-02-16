@@ -25,28 +25,25 @@ describe TimeLoggerAppFunctions do
 
   end
 
-  describe "#time_worked_per_project_type" do
+  describe "#time_worked_per_specification" do
 
-    it "Correctly adds project hours with specified type" do
+    it "Correctly adds project hours with project type" do
       timecode = "PTO"
       hours = 10
       project_hours = Array.new(@timecodes.length, 0)
-      time_worked_per_project_type(project_hours: project_hours, hours: hours, timecode: timecode, timecodes: @timecodes)
+      time_worked_by_specification(hours_collection: project_hours, hours: hours, specific_attribute: timecode, all_attributes: @timecodes)
       expect(project_hours).to eql [0,0,hours]
     end
 
-  end
-
-  describe "#time_worked_per_client_type" do
-
-    it "Correctly adds client hours with specified client" do
+    it "Correctly adds project hours with client type" do
       client = "Foogle"
-      hours = 15
+      hours = 11
       client_hours = Array.new(@client_names.length, 0)
-      time_worked_per_client(client_hours: client_hours, hours: hours, client: client, clients: @client_names)
-      expect(client_hours).to eql [hours,0]
+      time_worked_by_specification(hours_collection: client_hours, hours: hours, specific_attribute: client, all_attributes: @client_names)
+      expect(client_hours).to eql [hours, 0]
     end
 
   end
+
 
 end

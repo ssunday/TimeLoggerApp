@@ -71,13 +71,18 @@ class TimeLoggerApp
     when 3
       time_log = @employee_data_logging.read_data
       client_names = @admin.client_names
+      employee_names = @admin.employee_names
       project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
       client_hours = Array.new(client_names.length,0)
+      employee_hours = Array.new(employee_names.length,0)
       time_log.each do |row|
         date = row[1].split('/')
+        collect_employee_total_hours(employee_hours: employee_hours, employee_names: employee_names, employee_name: row[0], \
+                                month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i,)
         collect_project_and_client_total_hours(month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i, client_names: client_names,\
                                                 timecode: row[3], timecodes: AVAILABLE_TIMECODES, client: row[4], client_hours: client_hours, project_hours: project_hours)
       end
+      display_hours_worked_by_employee(employee_names, employee_hours)
       display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
       display_hours_worked_per_client(client_names, client_hours)
     when 4

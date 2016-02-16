@@ -23,18 +23,6 @@ module TimeLoggerAppFunctions
     end
   end
 
-  def time_worked_per_employee(args = {})
-    employee_hours = args[:client_hours]
-    hours = args[:hours]
-    employee = args[:clients]
-    employee_names = args[:client]
-    for z in 0..employee_names.length
-      if employee.eql?(employee_names[z])
-        employee_hours[j] += hours
-      end
-    end
-  end
-
   def collect_project_and_client_total_hours(args = {})
     month = args[:month]
     year = args[:year]

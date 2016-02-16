@@ -1,6 +1,7 @@
 require 'date'
 require 'time'
-module TimeLoggerInputOutput
+
+class TimeLoggerInputOutput
 
   def display_menu(menu)
     iterate_through_list_with_numbers(menu)

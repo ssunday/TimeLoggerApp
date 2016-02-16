@@ -39,10 +39,12 @@ class TimeLoggerAdmin
     end
   end
 
-  def clear_files
+  def clear_client_file
     CSV.open(@clients_file_name, "w") do |csv|
     end
+  end
 
+  def clear_employees_file
     CSV.open(@employees_file_name, "w") do |csv|
     end
   end

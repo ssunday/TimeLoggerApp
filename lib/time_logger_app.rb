@@ -3,7 +3,6 @@ require_relative "time_logger_app_functions.rb"
 require_relative "time_logger_admin.rb"
 require_relative "time_logger_data_logging.rb"
 
-#include TimeLoggerInputOutput
 include TimeLoggerAppFunctions
 
 class TimeLoggerApp
@@ -15,10 +14,10 @@ class TimeLoggerApp
   MENU_ADMIN = ["Enter Hours", "Report Current Month's Time", "All Employee's Report",\
               "Add Employee" , "Add Client", "Log out"]
 
-  def initialize(input_output)
+  def initialize(input_output, filenames = {})
     @io = input_output
-    @admin = TimeLoggerAdmin.new
-    @employee_data_logging = TimeLoggerDataLogging.new
+    @admin = TimeLoggerAdmin.new(filenames[:employees_file_name], filenames[:clients_file_name])
+    @employee_data_logging = TimeLoggerDataLogging.new(filenames[:time_log_file_name])
   end
 
   def run

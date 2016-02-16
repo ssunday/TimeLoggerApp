@@ -2,7 +2,7 @@ require "csv"
 
 class TimeLoggerAdmin
 
-  def initialize(employees_file_name = "files/employees.csv", clients_file_name = "files/clients.csv")
+  def initialize(employees_file_name, clients_file_name)
     @employees_file_name = employees_file_name
     @clients_file_name = clients_file_name
     initialize_employee_file

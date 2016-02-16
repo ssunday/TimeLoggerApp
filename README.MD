@@ -12,5 +12,10 @@ Clone the repository onto desktop.
 
 ### Usage
 
+Run the following in the command line in the /TimeLoggerApp folder.
+```
+ruby time_logger_app_runner.rb
+```
 
 ### History
+16/2/2016 - Functionality is present.

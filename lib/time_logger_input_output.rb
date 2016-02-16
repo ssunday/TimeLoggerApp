@@ -1,5 +1,5 @@
 require 'date'
-
+require 'time'
 module TimeLoggerInputOutput
 
   def display_menu(menu)
@@ -22,17 +22,22 @@ module TimeLoggerInputOutput
     puts "Sorry, but that username is not in our system."
   end
 
-  def bad_date_message
-    puts "Sorry that date is invalid."
-  end
-
   def specify_date
-    puts "Input date you wish to add hours worked for in day/month/year format."
-    current_date = Time.new
-    current_day = current_date.day.to_s
-    current_month = current_date.month.to_s
-    current_year = current_date.year.to_s
-    date = gets.chomp
+    puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."
+    inputted_date = gets.chomp
+    date_collection = inputted_date.split('/')
+    while Date.valid_date?(date_collection[2].to_i, date_collection[1].to_i, date_collection[0].to_i) == false
+      puts "Sorry that date is invalid."
+      inputted_date = gets.chomp
+      date_collection = inputted_date.split('/')
+    end
+    date = Date.parse(inputted_date)
+    while date >= Date.today
+      puts "Sorry that date is in the future."
+      inputted_date = gets.chomp
+      date = Date.parse(inputted_date)
+    end
+    return inputted_date
   end
 
   def hours_worked
@@ -86,6 +91,20 @@ module TimeLoggerInputOutput
   def get_client_name
     puts "Please enter the client's name."
     gets.chomp
+  end
+
+  def display_hours_worked_per_project(timecodes, hours_worked_for_each)
+    puts "Hours worked per project type:"
+    for i in 0..(timecodes.length - 1)
+      puts "#{timecodes[i]}: #{hours_worked_for_each[i]} hours."
+    end
+  end
+
+  def display_hours_worked_per_client(client_names, hours_worked_for_each)
+    puts "Hours worked per client:"
+    for i in 0..(client_names.length - 1)
+      puts "#{client_names[i]}: #{hours_worked_for_each[i]} hours."
+    end
   end
 
   private

@@ -12,7 +12,7 @@ class TimeLoggerApp
 
   MENU_EMPLOYEE = ["Enter Hours", "Report Current Month's Time", "Log out"]
 
-  MENU_ADMIN = ["Enter Hours", "Report Current Month's Time", \
+  MENU_ADMIN = ["Enter Hours", "Report Current Month's Time", "All Employee's Report",\
               "Add Employee" , "Add Client", "Log out"]
 
   def initialize
@@ -49,15 +49,39 @@ class TimeLoggerApp
       hours = hours_worked
       timecode = AVAILABLE_TIMECODES[select_timecode(AVAILABLE_TIMECODES)-1]
       if timecode.eql?("Billable Work")
-        client = select_client(@admin.client_names)
+        client = @admin.client_names[select_client(@admin.client_names) - 1]
       else
         client = nil
       end
       @employee_data_logging.log_time(username: @username, date: date, hours: hours, timecode: timecode, client: client)
-    when 3
+    when 2
+      time_log = @employee_data_logging.read_data
+      client_names = @admin.client_names
+      project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
+      client_hours = Array.new(client_names.length,0)
+      time_log.each do |row|
+        if row[0].eql?(@username)
+          date = row[1].split('/')
+          if date[1].to_i == Date.today.month && date[2].to_i == Date.today.year
+            for i in 0..AVAILABLE_TIMECODES.length
+              if row[3].eql?(AVAILABLE_TIMECODES[i])
+                project_hours[i] += row[2].to_i
+              end
+            end
+            for j in 0..client_names.length
+              if row[4].eql?(client_names[j])
+                client_hours[j] += row[2].to_i
+              end
+            end
+          end
+        end
+      end
+      display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
+      display_hours_worked_per_client(client_names, client_hours)
+    when 4
       employee_data = get_employee_info
       @admin.add_employee(employee_data)
-    when 4
+    when 5
       client_name = get_client_name
       @admin.add_client(client_name)
     end

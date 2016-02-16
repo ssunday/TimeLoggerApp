@@ -1,3 +1,5 @@
+
+
 module TimeLoggerAppFunctions
 
   def authorize_user(username, employees)
@@ -16,5 +18,11 @@ module TimeLoggerAppFunctions
       end
     end
   end
+
+  # def time_worked_per_project_type(args ={})
+  #   username = args[:username]
+  #   date_collection = args[:date]
+  #   timecodes = args[:timecodes]
+  # end
 
 end

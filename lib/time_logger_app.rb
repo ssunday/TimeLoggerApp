@@ -59,8 +59,12 @@ class TimeLoggerApp
       client_names = @admin.client_names
       project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
       client_hours = Array.new(client_names.length, 0)
+      date_list = get_list_of_dates_worked_in_month(time_log)
+      hours_worked_in_month = Array.new(date_list.length, 0)
       time_log.each do |row|
         if row[0].eql?(@username)
+          time_worked_by_specification(hours: row[2].to_i , specific_attribute: row[1], \
+                            all_attributes: date_list, hours_collection: hours_worked_in_month)
           date = row[1].split('/')
           collect_project_and_client_total_hours(month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i, client_names: client_names, \
                                                   timecode: row[3], timecodes: AVAILABLE_TIMECODES, client: row[4], client_hours: client_hours, project_hours: project_hours)
@@ -68,6 +72,7 @@ class TimeLoggerApp
       end
       display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
       display_hours_worked_per_client(@admin.client_names, client_hours)
+      display_hours_worked_in_month(date_list, hours_worked_in_month)
     when 3
       time_log = @employee_data_logging.read_data
       client_names = @admin.client_names
@@ -92,6 +97,22 @@ class TimeLoggerApp
       client_name = get_client_name
       @admin.add_client(client_name)
     end
+  end
+
+  def get_list_of_dates_worked_in_month(data)
+    date_list = []
+    data.each do |row|
+      if row[0].eql?(@username)
+        parsed_date = Date.parse(row[1])
+        if parsed_date.month == Date.today.month && parsed_date.year == Date.today.year
+          date_list << row[1]
+        end
+      end
+    end
+    date_list.uniq
+    date_list = date_list.map {|s| Date.parse s}
+    date_list.sort
+    date_list = date_list.map {|date| date.strftime('%-d/%-m/%Y')}
   end
 
   def get_username

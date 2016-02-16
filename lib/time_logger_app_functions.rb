@@ -11,10 +11,6 @@ module TimeLoggerAppFunctions
     false
   end
 
-  def detailed_time_report(args = {})
-
-  end
-
   def time_worked_by_specification(args = {})
     hours_collection = args[:hours_collection]
     hours_worked = args[:hours]

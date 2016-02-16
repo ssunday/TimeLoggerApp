@@ -37,7 +37,8 @@ module TimeLoggerInputOutput
       inputted_date = gets.chomp
       date = Date.parse(inputted_date)
     end
-    return inputted_date
+    date = date.strftime('%-d/%-m/%Y')
+    return date
   end
 
   def hours_worked
@@ -93,28 +94,24 @@ module TimeLoggerInputOutput
     gets.chomp
   end
 
+  def display_hours_worked_in_month(date_list, hours_worked_in_each)
+    puts "\nHours worked per day in current month:"
+    iterate_over_names_and_hours(date_list, hours_worked_in_each)
+  end
+
   def display_hours_worked_per_project(timecodes, hours_worked_for_each)
     puts "\nHours worked per project type:"
     iterate_over_names_and_hours(timecodes, hours_worked_for_each)
-    # for i in 0..(timecodes.length - 1)
-    #   puts "#{timecodes[i]}: #{hours_worked_for_each[i]} hours."
-    # end
   end
 
   def display_hours_worked_per_client(client_names, hours_worked_for_each)
     puts "\nHours worked per client:"
     iterate_over_names_and_hours(client_names, hours_worked_for_each)
-    # for i in 0..(client_names.length - 1)
-    #   puts "#{client_names[i]}: #{hours_worked_for_each[i]} hours."
-    # end
   end
 
   def display_hours_worked_by_employee(employee_names, hours_worked_by_each)
     puts "\nHours worked per Employee:"
     iterate_over_names_and_hours(employee_names, hours_worked_by_each)
-    # for i in 0..(employee_names.length - 1)
-    #   puts "#{employee_names[i]}: #{hours_worked_by_each[i]} hours."
-    # end
   end
 
   private

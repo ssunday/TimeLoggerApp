@@ -46,6 +46,22 @@ describe TimeLoggerApp do
     expect(CSV.read(@employee_test_file)[1]).to eql [name, is_admin] #is 1 because default admin is first
   end
 
+  it "#employee_log_time logs the specified time into the file" do
+    name = "janice"
+    hours = "10"
+    date = "1/1/2015"
+    timecode = 2
+    @mock_io.employee_name = name
+    @app.admin_add_employee
+    @mock_io.username = name
+    @app.get_username
+    @mock_io.hours = hours
+    @mock_io.date = date
+    @mock_io.timecode_index = timecode
+    @app.employee_log_time
+    expect(CSV.read(@time_log_test_file)[0]).to eql [name, date, hours, TimeLoggerApp::AVAILABLE_TIMECODES[timecode-1], nil]
+  end
+
   it "#do_menu_option returns false when employee selects logout" do
     name = "bob"
     is_admin = "false"

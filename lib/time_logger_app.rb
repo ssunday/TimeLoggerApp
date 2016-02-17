@@ -7,12 +7,20 @@ include TimeLoggerAppFunctions
 
 class TimeLoggerApp
 
-  AVAILABLE_TIMECODES = ["Billable Work", "Non-billable work", "PTO"]
+  AVAILABLE_TIMECODES = ["Billable Work",
+                        "Non-billable work",
+                        "PTO"]
 
-  MENU_EMPLOYEE = ["Enter Hours", "Report Current Month's Time", "Log out"]
+  MENU_EMPLOYEE = ["Enter Hours",
+                  "Report Current Month's Time",
+                  "Log out"]
 
-  MENU_ADMIN = ["Enter Hours", "Report Current Month's Time", "All Employee's Report",\
-              "Add Employee" , "Add Client", "Log out"]
+  MENU_ADMIN = ["Enter Hours",
+                "Report Current Month's Time",
+                "All Employee's Report",
+                "Add Employee" ,
+                "Add Client",
+                "Log out"]
 
   def initialize(input_output, filenames = {})
     @io = input_output
@@ -98,7 +106,7 @@ class TimeLoggerApp
     time_log.each do |row|
       date = row[1].split('/')
       collect_employee_total_hours(employee_hours: employee_hours, employee_names: employee_names, employee_name: row[0], \
-                              month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i,)
+                              month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i)
       collect_project_and_client_total_hours(month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i, client_names: client_names,\
                                               timecode: row[3], timecodes: AVAILABLE_TIMECODES, client: row[4], client_hours: client_hours, project_hours: project_hours)
     end

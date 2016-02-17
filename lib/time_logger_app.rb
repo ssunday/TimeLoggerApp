@@ -45,9 +45,9 @@ class TimeLoggerApp
     when (menu.length)
       @in_use = false
     when 1
-      date = specify_date
-      hours = hours_worked
-      timecode = AVAILABLE_TIMECODES[select_timecode(AVAILABLE_TIMECODES)-1]
+      date = @io.specify_date
+      hours = @io.hours_worked
+      timecode = AVAILABLE_TIMECODES[@io.select_timecode(AVAILABLE_TIMECODES)-1]
       if timecode.eql?("Billable Work")
         client = @admin.client_names[@io.select_client(@admin.client_names) - 1]
       else
@@ -59,7 +59,7 @@ class TimeLoggerApp
       client_names = @admin.client_names
       project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
       client_hours = Array.new(client_names.length, 0)
-      date_list = get_list_of_dates_worked_in_month(time_log)
+      date_list = get_list_of_dates_worked_in_month(time_log, @username)
       hours_worked_in_month = Array.new(date_list.length, 0)
       time_log.each do |row|
         if row[0].eql?(@username)
@@ -99,21 +99,21 @@ class TimeLoggerApp
     end
   end
 
-  def get_list_of_dates_worked_in_month(data)
-    date_list = []
-    data.each do |row|
-      if row[0].eql?(@username)
-        parsed_date = Date.parse(row[1])
-        if parsed_date.month == Date.today.month && parsed_date.year == Date.today.year
-          date_list << row[1]
-        end
-      end
-    end
-    date_list.uniq
-    date_list = date_list.map {|s| Date.parse s}
-    date_list.sort
-    date_list = date_list.map {|date| date.strftime('%-d/%-m/%Y')}
-  end
+  # def get_list_of_dates_worked_in_month(data)
+  #   date_list = []
+  #   data.each do |row|
+  #     if row[0].eql?(@username)
+  #       parsed_date = Date.parse(row[1])
+  #       if parsed_date.month == Date.today.month && parsed_date.year == Date.today.year
+  #         date_list << row[1]
+  #       end
+  #     end
+  #   end
+  #   date_list.uniq
+  #   date_list = date_list.map {|s| Date.parse s}
+  #   date_list.sort
+  #   date_list = date_list.map {|date| date.strftime('%-d/%-m/%Y')}
+  # end
 
   def get_username
     @username = @io.input_username

@@ -4,7 +4,15 @@ Time Logger App
 
 ## Description
 
-An app to log employee time. Can add hours worked with specifications of project-type, client (if applicable), and date. Can get reports of worked time. Admins can add employees and clients.
+An app to log employee time.
+
+Features:
+
+* Admins can add other employees
+* Admins can add new clients
+* Admins can get detailed reports of hours worked, by project, client, and employees
+* Employees can their monthly report that breaks down by type of work, client, and day
+* Employees can add hours worked with specifications of project-type, client (if applicable), and date.
 
 ### Installation
 

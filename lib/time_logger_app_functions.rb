@@ -31,8 +31,8 @@ module TimeLoggerAppFunctions
         end
       end
     end
-    date_list = date_list.map {|s| Date.parse s}
-    date_list.sort
+    date_list = date_list.map {|s| Date.parse(s)}
+    date_list = date_list.sort
     date_list = date_list.map {|date| date.strftime('%-d/%-m/%Y')}
     date_list.uniq
   end

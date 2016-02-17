@@ -71,6 +71,24 @@ describe TimeLoggerAppFunctions do
 
       expect(client_hours).to eql [0, 0]
     end
+  end
+
+  describe "#get_list_of_dates_worked_in_month" do
+
+    it "returns a sorted list of dates the employee worked" do
+      active_employee = @employee_list[0]
+      non_active = @employee_list[1]
+      today = Date.today.strftime('%-d/%-m/%Y')
+      yesterday = Date.today.prev_day.strftime('%-d/%-m/%Y')
+      tomorrow = Date.today.next.strftime('%-d/%-m/%Y')
+      previous_year_day = Date.new(1999,10,15).strftime('%-d/%-m/%Y')
+      example_date_set = [[active_employee, today],
+                          [active_employee, yesterday],
+                          [active_employee, previous_year_day],
+                          [non_active, tomorrow],
+                          [non_active, previous_year_day]]
+      expect(get_list_of_dates_worked_in_month(example_date_set, active_employee)).to eql [yesterday, today]
+    end
 
   end
 

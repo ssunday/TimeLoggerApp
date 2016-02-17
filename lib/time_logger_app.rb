@@ -84,11 +84,19 @@ class TimeLoggerApp
     hours_worked_in_month = Array.new(date_list.length, 0)
     time_log.each do |row|
       if row[0].eql?(@username)
+        date = row[1].split('/')
+        month = date[1].to_i
+        year = date[2].to_i
+        hours = row[2].to_i
+        employee_name = row[0]
+        client = row[4]
+        timecode = row[3]
         time_worked_by_specification(hours: row[2].to_i , specific_attribute: row[1], \
                           all_attributes: date_list, hours_collection: hours_worked_in_month)
-        date = row[1].split('/')
-        collect_project_and_client_total_hours(month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i, client_names: client_names, \
-                                                timecode: row[3], timecodes: AVAILABLE_TIMECODES, client: row[4], client_hours: client_hours, project_hours: project_hours)
+        collect_hours_in_month(hours_collection: client_hours, all_attributes: client_names, specific_attribute: client, \
+                                month: month, year: year, hours: hours)
+        collect_hours_in_month(hours_collection: project_hours, all_attributes: AVAILABLE_TIMECODES, specific_attribute: timecode, \
+                                month: month, year: year, hours: hours)
       end
     end
     @io.display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
@@ -105,10 +113,18 @@ class TimeLoggerApp
     employee_hours = Array.new(employee_names.length,0)
     time_log.each do |row|
       date = row[1].split('/')
-      collect_employee_total_hours(employee_hours: employee_hours, employee_names: employee_names, employee_name: row[0], \
-                              month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i)
-      collect_project_and_client_total_hours(month: date[1].to_i, year: date[2].to_i, hours: row[2].to_i, client_names: client_names,\
-                                              timecode: row[3], timecodes: AVAILABLE_TIMECODES, client: row[4], client_hours: client_hours, project_hours: project_hours)
+      month = date[1].to_i
+      year = date[2].to_i
+      hours = row[2].to_i
+      employee_name = row[0]
+      client = row[4]
+      timecode = row[3]
+      collect_hours_in_month(hours_collection: employee_hours, all_attributes: employee_names, specific_attribute: employee_name, \
+                              month: month, year: year, hours: hours)
+      collect_hours_in_month(hours_collection: client_hours, all_attributes: client_names, specific_attribute: client, \
+                              month: month, year: year, hours: hours)
+      collect_hours_in_month(hours_collection: project_hours, all_attributes: AVAILABLE_TIMECODES, specific_attribute: timecode, \
+                              month: month, year: year, hours: hours)
     end
     @io.display_hours_worked_by_employee(employee_names, employee_hours)
     @io.display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)

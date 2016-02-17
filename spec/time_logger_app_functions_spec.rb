@@ -45,5 +45,33 @@ describe TimeLoggerAppFunctions do
 
   end
 
+  describe "#collect_hours_in_month" do
+    it "will only collect hours if given month and year is current" do
+      month = Date.today.month
+      year = Date.today.year
+      client = "Foogle"
+      hours = 11
+      client_hours = Array.new(@client_names.length, 0)
+
+      collect_hours_in_month(hours_collection: client_hours, all_attributes: @client_names, specific_attribute: client, \
+                              month: month, year: year, hours: hours)
+
+      expect(client_hours).to eql [hours, 0]
+    end
+
+    it "will not collect hours if given month and year is not current" do
+      month = Date.today.prev_month
+      year = Date.today.prev_year
+      client = "Foogle"
+      hours = 11
+      client_hours = Array.new(@client_names.length, 0)
+
+      collect_hours_in_month(hours_collection: client_hours, all_attributes: @client_names, specific_attribute: client, \
+                              month: month, year: year, hours: hours)
+
+      expect(client_hours).to eql [0, 0]
+    end
+
+  end
 
 end

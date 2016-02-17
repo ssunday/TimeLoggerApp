@@ -33,14 +33,14 @@ class TimeLoggerApp
     while @in_use
       @io.display_menu(menu)
       option = @io.select_option(menu.length - 1)
-      do_menu_option(menu, option)
+      do_menu_option(menu.length, option)
     end
     @io.end_message
   end
-  
-  def do_menu_option(menu, option)
+
+  def do_menu_option(menu_length, option)
     case option
-    when (menu.length)
+    when (menu_length)
       @in_use = false
     when 1
       employee_log_time
@@ -52,14 +52,6 @@ class TimeLoggerApp
       admin_add_employee
     when 5
       admin_add_client
-    end
-  end
-
-  def get_username
-    @username = @io.input_username
-    while authorize_user(@username, @admin.employee_names) == false
-      @io.bad_user_name
-      @username = @io.input_username
     end
   end
 
@@ -123,6 +115,14 @@ class TimeLoggerApp
   def admin_add_client
     client_name = @io.get_client_name
     @admin.add_client(client_name)
+  end
+
+  def get_username
+    @username = @io.input_username
+    while authorize_user(@username, @admin.employee_names) == false
+      @io.bad_user_name
+      @username = @io.input_username
+    end
   end
 
 end

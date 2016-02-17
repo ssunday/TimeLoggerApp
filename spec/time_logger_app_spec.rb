@@ -31,9 +31,41 @@ describe TimeLoggerApp do
   end
 
   it "#admin_add_client adds client to file" do
-    @mock_io.client_name = "Foo"
+    name = "Foo"
+    @mock_io.client_name = name
     @app.admin_add_client
-    expect(CSV.read(@client_test_file)[0]).to eql ["Foo"]
+    expect(CSV.read(@client_test_file)[0]).to eql [name]
+  end
+
+  it "#admin_add_employee adds employee to file" do
+    name = "bob"
+    is_admin = "false"
+    @mock_io.employee_name = name
+    @mock_io.employee_is_admin = is_admin
+    @app.admin_add_employee
+    expect(CSV.read(@employee_test_file)[1]).to eql [name, is_admin] #is 1 because default admin is first
+  end
+
+  it "#do_menu_option returns false when employee selects logout" do
+    name = "bob"
+    is_admin = "false"
+    @mock_io.employee_name = name
+    @mock_io.employee_is_admin = is_admin
+    @app.admin_add_employee
+    @mock_io.username = name
+    @mock_io.option = TimeLoggerApp::MENU_EMPLOYEE.length
+    expect(@app.do_menu_option(TimeLoggerApp::MENU_EMPLOYEE.length, TimeLoggerApp::MENU_EMPLOYEE.length)).to eql false
+  end
+
+  it "#do_menu_option returns false when admin selects logout" do
+    name = "jane"
+    is_admin = "true"
+    @mock_io.employee_name = name
+    @mock_io.employee_is_admin = is_admin
+    @app.admin_add_employee
+    @mock_io.username = name
+    @mock_io.option = TimeLoggerApp::MENU_ADMIN.length
+    expect(@app.do_menu_option(TimeLoggerApp::MENU_ADMIN.length, TimeLoggerApp::MENU_ADMIN.length)).to eql false
   end
 
 end

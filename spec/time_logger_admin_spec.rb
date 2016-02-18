@@ -6,10 +6,20 @@ describe TimeLoggerAdmin do
     @admin = TimeLoggerAdmin.new
   end
 
-  it "#admin_from_username? verifies if user is admin or not" do
-    employee = ["sasunday", "true"]
-    expect(@admin.admin_from_username?(employee[0], [employee])).to eql true
+  describe "#admin_from_username?" do
+
+    it "returns true if user is admin" do
+      employee = ["sasunday", "true"]
+      expect(@admin.admin_from_username?(employee[0], [employee])).to eql true
+    end
+
+    it "returns false if user is not admin" do
+      employee = ["sasunday", "false"]
+      expect(@admin.admin_from_username?(employee[0], [employee])).to eql false
+    end
+
   end
+
 
   describe "#authorize_user" do
 

@@ -26,4 +26,5 @@ ruby time_logger_app_runner.rb
 ```
 
 ### History
+18/2/2016 - Refactored and streamlined code.
 16/2/2016 - Functionality is present.

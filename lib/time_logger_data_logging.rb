@@ -9,14 +9,9 @@ class TimeLoggerDataLogging
     initialize_employee_file
   end
 
-  def log_time(args = {})
-    username = args[:username]
-    date = args[:date]
-    hours = args[:hours]
-    timecode = args[:timecode]
-    client = args.fetch(:client, nil)
+  def log_time(data_to_be_logged)
     CSV.open(@time_log_file_name, "ab") do |csv|
-      csv << [username, date, hours, timecode, client]
+      csv << data_to_be_logged
     end
   end
 
@@ -45,7 +40,7 @@ class TimeLoggerDataLogging
     CSV.read(@employees_file_name)
   end
 
-  def read_data
+  def read_time_log_data
     CSV.read(@time_log_file_name)
   end
 
@@ -79,8 +74,7 @@ class TimeLoggerDataLogging
   end
 
   def initialize_employee_file
-    if File.exist?(@employees_file_name) == false \
-      || CSV.read(@employees_file_name).length == 0
+    if File.exist?(@employees_file_name) == false || CSV.read(@employees_file_name).length == 0
       default_admin
     end
   end

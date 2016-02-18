@@ -1,5 +1,3 @@
-require "csv"
-
 class TimeLoggerAdmin
 
   def authorize_user(username, employee_names)

@@ -5,7 +5,6 @@ include TimeLoggerAppFunctions
 describe TimeLoggerAppFunctions do
 
   before do
-    @timecodes = ["Billable Work", "Non-billable work", "PTO"]
     @employee_list = ["jjam", "bbob", "zwane"]
     @employee_and_admin_list = [["jjam", true], ["bbob", false] , ["zwane", false]]
     @client_names = ["Foogle", "Bar"]
@@ -16,8 +15,8 @@ describe TimeLoggerAppFunctions do
     it "Correctly adds project hours with project type" do
       timecode = "PTO"
       hours = 10
-      project_hours = Array.new(@timecodes.length, 0)
-      time_worked_by_specification(hours_collection: project_hours, hours: hours, specific_attribute: timecode, all_attributes: @timecodes)
+      project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
+      time_worked_by_specification(hours_collection: project_hours, hours: hours, specific_attribute: timecode, all_attributes: AVAILABLE_TIMECODES)
       expect(project_hours).to eql [0,0,hours]
     end
 
@@ -115,5 +114,47 @@ describe TimeLoggerAppFunctions do
     end
 
   end
+
+  it "#get_admin_time_to_report assigns correct values to designated lists" do
+    today = Date.today.strftime('%-d/%-m/%Y')
+    hours1 = 10
+    hours2 = 5
+    hours3 = 3
+    time_log = [[@employee_list[0], today, hours1, AVAILABLE_TIMECODES[1], nil],
+                [@employee_list[1], today, hours2, AVAILABLE_TIMECODES[0], @client_names[0]],
+                [@employee_list[2], today, hours3, AVAILABLE_TIMECODES[2], nil]]
+    project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
+    client_hours = Array.new(@client_names.length,0)
+    employee_hours = Array.new(@employee_list.length,0)
+    get_admin_time_to_report(time_log: time_log, project_hours: project_hours,
+                      client_hours: client_hours, employee_hours: employee_hours,
+                      client_names: @client_names, employee_names: @employee_list)
+    expect(client_hours).to eql [hours2,0]
+    expect(project_hours).to eql [hours2,hours1,hours3]
+    expect(employee_hours).to eql [hours1,hours2,hours3]
+  end
+
+  it "#get_employee_time_to_report assigns correct values to designated lists" do
+    today = Date.today.strftime('%-d/%-m/%Y')
+    hours1 = 10
+    hours2 = 5
+    hours3 = 3
+    username = @employee_list[0]
+    time_log = [[@employee_list[0], today, hours1, AVAILABLE_TIMECODES[1], nil],
+                [@employee_list[0], today, hours2, AVAILABLE_TIMECODES[2], nil],
+                [@employee_list[1], today, hours2, AVAILABLE_TIMECODES[0], @client_names[0]],
+                [@employee_list[2], today, hours3, AVAILABLE_TIMECODES[2], nil]]
+    project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
+    client_hours = Array.new(@client_names.length, 0)
+    date_list = get_list_of_dates_worked_in_month(time_log, username)
+    hours_worked_in_month = Array.new(date_list.length, 0)
+    get_employee_time_to_report(time_log: time_log, username: username, project_hours: project_hours,
+                      client_hours: client_hours, hours_worked_in_month: hours_worked_in_month,
+                      client_names: @client_names, date_list: date_list)
+    expect(client_hours).to eql [0,0]
+    expect(project_hours).to eql [0,hours1,hours2]
+    expect(hours_worked_in_month).to eql [hours1+hours2]
+  end
+
 
 end

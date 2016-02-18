@@ -1,4 +1,3 @@
-require_relative "time_logger_input_output.rb"
 require_relative "time_logger_app_functions.rb"
 require_relative "time_logger_admin.rb"
 require_relative "time_logger_data_logging.rb"
@@ -57,11 +56,12 @@ class TimeLoggerApp
     timecode_selection = @io.select_timecode(AVAILABLE_TIMECODES) - 1
     timecode = get_timecode(timecode_selection)
     client = billable_work?(timecode) ? @admin.client_names[@io.select_client(@admin.client_names) - 1] : nil
-    @data_logging.log_time(username: @username, date: date, hours: hours, timecode: timecode, client: client)
+    data = [@username, date, hours, timecode, client]
+    @data_logging.log_time(data)
   end
 
   def employee_report_time
-    time_log = @data_logging.read_data
+    time_log = @data_logging.read_time_log_data
     client_names = @data_logging.client_names
     project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
     client_hours = Array.new(client_names.length, 0)
@@ -76,7 +76,7 @@ class TimeLoggerApp
   end
 
   def admin_report_time
-    time_log = @data_logging.read_data
+    time_log = @data_logging.read_time_log_data
     client_names = @data_logging.client_names
     employee_names = @data_logging.employee_names
     project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)

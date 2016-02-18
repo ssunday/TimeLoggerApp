@@ -24,7 +24,7 @@ describe TimeLoggerApp do
     clear_files
 
     @mock_io = TimeLoggerMockIO.new
-    @app = TimeLoggerApp.new(@mock_io, \
+    @app = TimeLoggerApp.new(@mock_io,
                           employees_file_name: @employee_test_file,
                           clients_file_name: @client_test_file,
                           time_log_file_name: @time_log_test_file)

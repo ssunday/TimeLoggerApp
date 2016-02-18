@@ -7,7 +7,7 @@ describe TimeLoggerDataLogging do
     date = "2/15/2016"
     hours = "4"
     timecode = "PTO"
-    @logger.log_time(username: username, date: date, hours: hours, timecode: timecode)
+    @logger.log_time([username, date, hours, timecode, nil])
     [username, date, hours, timecode, nil]
   end
 
@@ -17,14 +17,14 @@ describe TimeLoggerDataLogging do
     hours = "2"
     timecode = "Billable Work"
     client = "Bob"
-    @logger.log_time(username: username, date: date, hours: hours, timecode: timecode, client: client)
+    @logger.log_time([username, date, hours, timecode, client])
     [username, date, hours, timecode, client]
   end
 
   before do
-    @file_name = "spec/test_files/timelog_test.csv"
-    @employees_file_name = "spec/test_files/employee_log.csv"
-    @clients_file_name = "spec/test_files/clients_log.csv"
+    @file_name = "spec/test_files/timelog.csv"
+    @employees_file_name = "spec/test_files/employees.csv"
+    @clients_file_name = "spec/test_files/clients.csv"
     @logger = TimeLoggerDataLogging.new(time_log_file_name: @file_name,
                                         clients_file_name: @clients_file_name,
                                         employees_file_name: @employees_file_name)
@@ -46,7 +46,7 @@ describe TimeLoggerDataLogging do
   it "can retrieve array of all rows" do
     no_client = no_client_log
     client = client_log
-    data = @logger.read_data
+    data = @logger.read_time_log_data
     expect(data).to eql [no_client, client]
   end
 
@@ -58,6 +58,7 @@ describe TimeLoggerDataLogging do
     expect(data[0]).to eql ["default_admin", "true"]
   end
 
+
   it "#add_employee" do
     employee = ["sasunday", "false"]
     @logger.add_employee(employee)
@@ -65,11 +66,27 @@ describe TimeLoggerDataLogging do
     expect(data[0]).to eql employee
   end
 
+  it "#employee_names returns list of just employee_names" do
+    employee1 = ["sasunday", "false"]
+    employee2 = ["john", "true"]
+    @logger.add_employee(employee1)
+    @logger.add_employee(employee2)
+    expect(@logger.employee_names).to eql [employee1[0], employee2[0]]
+  end
+
   it "#add_client" do
     client_name = ["Generic Company Name"]
     @logger.add_client(client_name)
     data = CSV.read(@clients_file_name)
     expect(data[0]).to eql client_name
+  end
+
+  it "#client_names returns one-d array of client names" do
+    client_name1 = ["Generic Company Name"]
+    client_name2 = ["Foogle"]
+    @logger.add_client(client_name1)
+    @logger.add_client(client_name2)
+    expect(@logger.client_names).to eql [client_name1[0], client_name2[0]]
   end
 
   it "#clear_client_file" do

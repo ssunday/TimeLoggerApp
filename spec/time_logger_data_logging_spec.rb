@@ -22,8 +22,12 @@ describe TimeLoggerDataLogging do
   end
 
   before do
-    @file_name = "spec/test_files/tester.csv"
-    @logger = TimeLoggerDataLogging.new(@file_name)
+    @file_name = "spec/test_files/timelog_test.csv"
+    @employees_file_name = "spec/test_files/employee_log.csv"
+    @clients_file_name = "spec/test_files/clients_log.csv"
+    @logger = TimeLoggerDataLogging.new(time_log_file_name: @file_name,
+                                        clients_file_name: @clients_file_name,
+                                        employees_file_name: @employees_file_name)
     @logger.clear_data
   end
 

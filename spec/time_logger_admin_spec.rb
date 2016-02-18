@@ -44,10 +44,26 @@ describe TimeLoggerAdmin do
     expect(CSV.read(@employee_file_name).length).to eql 0
   end
 
-  it "#is_admin_from_user_name verifies if user is admin or not" do
+  it "#admin_from_username? verifies if user is admin or not" do
     employee = ["sasunday", "true"]
     @admin.add_employee(employee)
-    expect(@admin.is_admin_from_user_name(employee[0])).to eql true
+    expect(@admin.admin_from_username?(employee[0])).to eql true
+  end
+
+  describe "#authorize_user" do
+
+    it "returns true for user that is in system" do
+      employee = ["jjam", "false"]
+      @admin.add_employee(employee)
+      user = "jjam"
+      expect(@admin.authorize_user(user)).to eql true
+    end
+
+    it "returns false for user that is not in system" do
+      user = "failure"
+      expect(@admin.authorize_user(user)).to eql false
+    end
+
   end
 
 end

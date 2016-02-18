@@ -118,8 +118,13 @@ class TimeLoggerInputOutput
   private
 
   def iterate_over_names_and_hours(name_list, hours_list)
-    for i in 0..(name_list.length - 1)
-      puts "#{name_list[i]}: #{hours_list[i]} hours."
+    if name_list.length == 0
+      puts "No data."
+    else
+      for i in 0..(name_list.length - 1)
+        puts "#{name_list[i]}: #{hours_list[i]} hours."
+      end
+      puts "\n"
     end
   end
 
@@ -128,6 +133,7 @@ class TimeLoggerInputOutput
     for counter in 1..(specified_list.length)
       puts "#{counter}: #{specified_list[counter-1]}"
     end
+    puts "\n"
   end
 
 end

@@ -3,36 +3,23 @@ require_relative "time_logger_app_functions.rb"
 require_relative "time_logger_admin.rb"
 require_relative "time_logger_data_logging.rb"
 
-include TimeLoggerAppFunctions
-
 class TimeLoggerApp
 
-  AVAILABLE_TIMECODES = ["Billable Work",
-                        "Non-billable work",
-                        "PTO"]
-
-  MENU_EMPLOYEE = ["Enter Hours",
-                  "Report Current Month's Time",
-                  "Log out"]
-
-  MENU_ADMIN = ["Enter Hours",
-                "Report Current Month's Time",
-                "All Employee's Report",
-                "Add Employee" ,
-                "Add Client",
-                "Log out"]
+  include TimeLoggerAppFunctions
 
   def initialize(input_output, filenames = {})
     @io = input_output
     @admin = TimeLoggerAdmin.new(filenames[:employees_file_name], filenames[:clients_file_name])
-    @employee_data_logging = TimeLoggerDataLogging.new(filenames[:time_log_file_name])
+    @employee_data_logging = TimeLoggerDataLogging.new(time_log_file_name: filenames[:time_log_file_name],
+                                                        clients_file_name: filenames[:clients_file_name],
+                                                        employees_file_name: filenames[:employees_file_name])
   end
 
   def run
     @io.welcome_message
     get_username
-    is_admin = @admin.is_admin_from_user_name(@username)
-    if is_admin
+    @is_admin = @admin.admin_from_username?(@username)
+    if @is_admin
       menu = MENU_ADMIN
     else
       menu = MENU_EMPLOYEE
@@ -47,31 +34,29 @@ class TimeLoggerApp
   end
 
   def do_menu_option(menu_length, option)
-    case option
-    when (menu_length)
+    if option == menu_length
       @in_use = false
-    when 1
+    elsif option == 1
       employee_log_time
-    when 2
+    elsif option == 2
       employee_report_time
-    when 3
+    elsif option == 3 && @is_admin
       admin_report_time
-    when 4
+    elsif option == 4 && @is_admin
       admin_add_employee
-    when 5
+    elsif option == 5 && @is_admin
       admin_add_client
+    else
+      @io.bad_option
     end
   end
 
   def employee_log_time
     date = @io.specify_date
     hours = @io.hours_worked
-    timecode = AVAILABLE_TIMECODES[@io.select_timecode(AVAILABLE_TIMECODES)-1]
-    if timecode.eql?("Billable Work")
-      client = @admin.client_names[@io.select_client(@admin.client_names) - 1]
-    else
-      client = nil
-    end
+    timecode_selection = @io.select_timecode(AVAILABLE_TIMECODES) - 1
+    timecode = get_timecode(timecode_selection)
+    client = billable_work?(timecode) ? @admin.client_names[@io.select_client(@admin.client_names) - 1] : nil
     @employee_data_logging.log_time(username: @username, date: date, hours: hours, timecode: timecode, client: client)
   end
 
@@ -111,21 +96,9 @@ class TimeLoggerApp
     project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
     client_hours = Array.new(client_names.length,0)
     employee_hours = Array.new(employee_names.length,0)
-    time_log.each do |row|
-      date = row[1].split('/')
-      month = date[1].to_i
-      year = date[2].to_i
-      hours = row[2].to_i
-      employee_name = row[0]
-      client = row[4]
-      timecode = row[3]
-      collect_hours_in_month(hours_collection: employee_hours, all_attributes: employee_names, specific_attribute: employee_name, \
-                              month: month, year: year, hours: hours)
-      collect_hours_in_month(hours_collection: client_hours, all_attributes: client_names, specific_attribute: client, \
-                              month: month, year: year, hours: hours)
-      collect_hours_in_month(hours_collection: project_hours, all_attributes: AVAILABLE_TIMECODES, specific_attribute: timecode, \
-                              month: month, year: year, hours: hours)
-    end
+    get_admin_time_to_report(time_log: time_log, project_hours: project_hours,
+                      client_hours: client_hours, employee_hours: employee_hours,
+                      client_names: client_names, employee_names: employee_names)
     @io.display_hours_worked_by_employee(employee_names, employee_hours)
     @io.display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
     @io.display_hours_worked_per_client(client_names, client_hours)
@@ -143,7 +116,7 @@ class TimeLoggerApp
 
   def get_username
     @username = @io.input_username
-    while authorize_user(@username, @admin.employee_names) == false
+    while @admin.authorize_user(@username) == false
       @io.bad_user_name
       @username = @io.input_username
     end

@@ -30,7 +30,16 @@ class TimeLoggerAdmin
     employee_data.collect(&:first)
   end
 
-  def is_admin_from_user_name(username)
+  def authorize_user(username)
+    employee_names.each do |employee|
+      if username.eql?(employee)
+        return true
+      end
+    end
+    false
+  end
+
+  def admin_from_username?(username)
     employee_data = CSV.read(@employees_file_name)
     employee_data.each do |set|
       if username.eql?(set[0])

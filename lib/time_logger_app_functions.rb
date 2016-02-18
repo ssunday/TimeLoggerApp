@@ -1,13 +1,19 @@
 module TimeLoggerAppFunctions
 
-  def authorize_user(username, employees)
-    employees.each do |employee|
-      if username.eql?(employee)
-        return true
-      end
-    end
-    false
-  end
+  AVAILABLE_TIMECODES = ["Billable Work",
+                        "Non-billable work",
+                        "PTO"]
+
+  MENU_EMPLOYEE = ["Enter Hours",
+                  "Report Current Month's Time",
+                  "Log out"]
+
+  MENU_ADMIN = ["Enter Hours",
+                "Report Current Month's Time",
+                "All Employee's Report",
+                "Add Employee" ,
+                "Add Client",
+                "Log out"]
 
   def time_worked_by_specification(args = {})
     hours_collection = args[:hours_collection]
@@ -44,6 +50,33 @@ module TimeLoggerAppFunctions
       time_worked_by_specification(hours_collection: args[:hours_collection], \
                 hours: args[:hours], all_attributes: args[:all_attributes], specific_attribute: args[:specific_attribute])
     end
+  end
+
+  def get_timecode(timecode_selection)
+    timecode = AVAILABLE_TIMECODES[timecode_selection]
+  end
+
+  def billable_work?(timecode)
+    timecode.eql?("Billable Work")
+  end
+
+  def get_admin_time_to_report(args = {})
+    args[:time_log].each do |row|
+      date = row[1].split('/')
+      month = date[1].to_i
+      year = date[2].to_i
+      hours = row[2].to_i
+      employee_name = row[0]
+      client = row[4]
+      timecode = row[3]
+      collect_hours_in_month(hours_collection: args[:employee_hours], all_attributes: args[:employee_names], specific_attribute: employee_name,
+                              month: month, year: year, hours: hours)
+      collect_hours_in_month(hours_collection: args[:client_hours], all_attributes: args[:client_names], specific_attribute: client,
+                              month: month, year: year, hours: hours)
+      collect_hours_in_month(hours_collection: args[:project_hours], all_attributes: AVAILABLE_TIMECODES, specific_attribute: timecode,
+                              month: month, year: year, hours: hours)
+    end
+    return
   end
 
 end

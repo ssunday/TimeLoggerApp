@@ -2,8 +2,10 @@ require "csv"
 
 class TimeLoggerDataLogging
 
-  def initialize(filename)
-    @time_log_file_name = filename
+  def initialize(filenames = {})
+    @time_log_file_name = filenames[:time_log_file_name]
+    @employees_file_name = filenames[:employees_file_name]
+    @clients_file_name = filenames[:clients_file_name]
   end
 
   def log_time(args = {})

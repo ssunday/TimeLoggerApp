@@ -11,20 +11,6 @@ describe TimeLoggerAppFunctions do
     @client_names = ["Foogle", "Bar"]
   end
 
-  describe "#authorize_user" do
-
-    it "returns true for user that is in system" do
-      user = "jjam"
-      expect(authorize_user(user, @employee_list)).to eql true
-    end
-
-    it "returns false for user that is not in system" do
-      user = "failure"
-      expect(authorize_user(user, @employee_list)).to eql false
-    end
-
-  end
-
   describe "#time_worked_per_specification" do
 
     it "Correctly adds project hours with project type" do
@@ -88,6 +74,44 @@ describe TimeLoggerAppFunctions do
                           [non_active, tomorrow],
                           [non_active, previous_year_day]]
       expect(get_list_of_dates_worked_in_month(example_date_set, active_employee)).to eql [yesterday, today]
+    end
+
+  end
+
+  describe "#billable_work?" do
+
+    it "is false when time code is not Billable Work" do
+      timecode = AVAILABLE_TIMECODES[1]
+      expect(billable_work?(timecode)).to eql false
+    end
+
+    it "is false when time code is not Billable Work" do
+      timecode = AVAILABLE_TIMECODES[2]
+      expect(billable_work?(timecode)).to eql false
+    end
+
+    it "is true when time code is Billable Work" do
+      timecode = AVAILABLE_TIMECODES[0]
+      expect(billable_work?(timecode)).to eql true
+    end
+
+  end
+
+  describe "#get_timecode" do
+
+    it "returns 1st available timecodes for 0" do
+      expected_value = AVAILABLE_TIMECODES[0]
+      expect(get_timecode(0)).to eql expected_value
+    end
+
+    it "returns 2nd available timecodes for 1" do
+      expected_value = AVAILABLE_TIMECODES[1]
+      expect(get_timecode(1)).to eql expected_value
+    end
+
+    it "returns 3rd available timecodes for 2" do
+      expected_value = AVAILABLE_TIMECODES[2]
+      expect(get_timecode(2)).to eql expected_value
     end
 
   end

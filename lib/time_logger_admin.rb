@@ -1,12 +1,7 @@
 class TimeLoggerAdmin
 
   def authorize_user(username, employee_names)
-    employee_names.each do |employee|
-      if username.eql?(employee)
-        return true
-      end
-    end
-    false
+    employee_names.include?(username)
   end
 
   def admin_from_username?(username, employee_data)

@@ -12,6 +12,7 @@ class TimeLoggerApp
     @data_logging = TimeLoggerDataLogging.new(time_log_file_name: filenames[:time_log_file_name],
                                                         clients_file_name: filenames[:clients_file_name],
                                                         employees_file_name: filenames[:employees_file_name])
+    @in_use = true
   end
 
   def run
@@ -23,7 +24,6 @@ class TimeLoggerApp
     else
       menu = MENU_EMPLOYEE
     end
-    @in_use = true
     while @in_use
       @io.display_menu(menu)
       option = @io.select_option(menu.length - 1)
@@ -56,8 +56,7 @@ class TimeLoggerApp
     timecode_selection = @io.select_timecode(AVAILABLE_TIMECODES) - 1
     timecode = get_timecode(timecode_selection)
     client = billable_work?(timecode) ? @admin.client_names[@io.select_client(@admin.client_names) - 1] : nil
-    data = [@username, date, hours, timecode, client]
-    @data_logging.log_time(data)
+    @data_logging.log_time([@username, date, hours, timecode, client])
   end
 
   def employee_report_time
@@ -70,8 +69,7 @@ class TimeLoggerApp
     get_employee_time_to_report(time_log: time_log, username: @username, project_hours: project_hours,
                       client_hours: client_hours, hours_worked_in_month: hours_worked_in_month,
                       client_names: client_names, date_list: date_list)
-    @io.display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
-    @io.display_hours_worked_per_client(@data_logging.client_names, client_hours)
+    @io.display_project_and_client_hours(AVAILABLE_TIMECODES, client_names, project_hours, client_hours)
     @io.display_hours_worked_in_month(date_list, hours_worked_in_month)
   end
 
@@ -85,9 +83,8 @@ class TimeLoggerApp
     get_admin_time_to_report(time_log: time_log, project_hours: project_hours,
                       client_hours: client_hours, employee_hours: employee_hours,
                       client_names: client_names, employee_names: employee_names)
+    @io.display_project_and_client_hours(AVAILABLE_TIMECODES, client_names, project_hours, client_hours)
     @io.display_hours_worked_by_employee(employee_names, employee_hours)
-    @io.display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
-    @io.display_hours_worked_per_client(client_names, client_hours)
   end
 
   def admin_add_employee

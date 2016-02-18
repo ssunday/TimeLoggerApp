@@ -44,10 +44,8 @@ module TimeLoggerAppFunctions
   end
 
   def collect_hours_in_month(args = {})
-    month = args[:month]
-    year = args[:year]
-    if month == Date.today.month && year == Date.today.year
-      time_worked_by_specification(hours_collection: args[:hours_collection], \
+    if args[:month] == Date.today.month && args[:year] == Date.today.year
+      time_worked_by_specification(hours_collection: args[:hours_collection],
                 hours: args[:hours], all_attributes: args[:all_attributes], specific_attribute: args[:specific_attribute])
     end
   end
@@ -70,7 +68,7 @@ module TimeLoggerAppFunctions
         employee_name = row[0]
         client = row[4]
         timecode = row[3]
-        time_worked_by_specification(hours: row[2].to_i , specific_attribute: row[1],
+        time_worked_by_specification(hours: hours, specific_attribute: row[1],
                           all_attributes: args[:date_list], hours_collection: args[:hours_worked_in_month])
         collect_hours_in_month(hours_collection: args[:client_hours], all_attributes: args[:client_names], specific_attribute: client,
                                 month: month, year: year, hours: hours)

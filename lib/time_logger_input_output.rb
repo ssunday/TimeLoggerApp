@@ -39,7 +39,6 @@ class TimeLoggerInputOutput
       date = Date.parse(inputted_date)
     end
     date = date.strftime('%-d/%-m/%Y')
-    return date
   end
 
   def hours_worked
@@ -102,6 +101,11 @@ class TimeLoggerInputOutput
       new_client = gets.chomp
     end
     new_client
+  end
+
+  def display_project_and_client_hours(timecodes, client_names, project_hours, client_hours)
+    display_hours_worked_per_project(timecodes, project_hours)
+    display_hours_worked_per_client(client_names, client_hours)
   end
 
   def display_hours_worked_in_month(date_list, hours_worked_in_each)

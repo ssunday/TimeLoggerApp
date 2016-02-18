@@ -91,12 +91,12 @@ class TimeLoggerApp
   end
 
   def admin_add_employee
-    employee_data = @io.get_employee_info
+    employee_data = @io.get_employee_info(@data_logging.employee_names)
     @data_logging.add_employee(employee_data)
   end
 
   def admin_add_client
-    client_name = @io.get_client_name
+    client_name = @io.get_client_name(@data_logging.client_names)
     @data_logging.add_client([client_name])
   end
 

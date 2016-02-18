@@ -78,9 +78,13 @@ class TimeLoggerInputOutput
     puts "That is an invalid option. Please try again."
   end
 
-  def get_employee_info
+  def get_employee_info(employee_names)
     puts "Please enter employee's username."
     username = gets.chomp
+    while employee_names.include?(username)
+      puts "Sorry, that username is already taken. Please enter a new one."
+      username = gets.chomp
+    end
     puts "Please enter true if they are admin and false if they are not."
     is_admin = gets.chomp
     while is_admin != "true" &&  is_admin != "false"
@@ -90,9 +94,14 @@ class TimeLoggerInputOutput
     [username, is_admin]
   end
 
-  def get_client_name
+  def get_client_name(client_names)
     puts "Please enter the client's name."
-    gets.chomp
+    new_client = gets.chomp
+    while client_names.include?(new_client)
+      puts "Sorry, that client already exists. Please enter a new one."
+      new_client = gets.chomp
+    end
+    new_client
   end
 
   def display_hours_worked_in_month(date_list, hours_worked_in_each)

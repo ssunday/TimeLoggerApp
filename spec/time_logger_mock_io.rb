@@ -52,11 +52,11 @@ class TimeLoggerMockIO
   def bad_option
   end
 
-  def get_employee_info
+  def get_employee_info(employee_names)
     [@employee_name, @employee_is_admin]
   end
 
-  def get_client_name
+  def get_client_name(client_names)
     @client_name
   end
 

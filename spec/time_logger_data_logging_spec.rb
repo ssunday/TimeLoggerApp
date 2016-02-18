@@ -50,4 +50,40 @@ describe TimeLoggerDataLogging do
     expect(data).to eql [no_client, client]
   end
 
+  it "adds a default admin" do
+    default_admin = TimeLoggerDataLogging.new(time_log_file_name: @file_name,
+                                              clients_file_name: @clients_file_name,
+                                              employees_file_name: @employees_file_name)
+    data = CSV.read(@employees_file_name)
+    expect(data[0]).to eql ["default_admin", "true"]
+  end
+
+  it "#add_employee" do
+    employee = ["sasunday", "false"]
+    @logger.add_employee(employee)
+    data = CSV.read(@employees_file_name)
+    expect(data[0]).to eql employee
+  end
+
+  it "#add_client" do
+    client_name = ["Generic Company Name"]
+    @logger.add_client(client_name)
+    data = CSV.read(@clients_file_name)
+    expect(data[0]).to eql client_name
+  end
+
+  it "#clear_client_file" do
+    client_name = ["Generic Company Name"]
+    @logger.add_client(client_name)
+    @logger.clear_client_file
+    expect(CSV.read(@clients_file_name).length).to eql 0
+  end
+
+  it "#clear_employees_file" do
+    employee = ["sasunday", "false"]
+    @logger.add_employee(employee)
+    @logger.clear_employees_file
+    expect(CSV.read(@employees_file_name).length).to eql 0
+  end
+
 end

@@ -9,8 +9,8 @@ class TimeLoggerApp
 
   def initialize(input_output, filenames = {})
     @io = input_output
-    @admin = TimeLoggerAdmin.new(filenames[:employees_file_name], filenames[:clients_file_name])
-    @employee_data_logging = TimeLoggerDataLogging.new(time_log_file_name: filenames[:time_log_file_name],
+    @admin = TimeLoggerAdmin.new
+    @data_logging = TimeLoggerDataLogging.new(time_log_file_name: filenames[:time_log_file_name],
                                                         clients_file_name: filenames[:clients_file_name],
                                                         employees_file_name: filenames[:employees_file_name])
   end
@@ -57,12 +57,12 @@ class TimeLoggerApp
     timecode_selection = @io.select_timecode(AVAILABLE_TIMECODES) - 1
     timecode = get_timecode(timecode_selection)
     client = billable_work?(timecode) ? @admin.client_names[@io.select_client(@admin.client_names) - 1] : nil
-    @employee_data_logging.log_time(username: @username, date: date, hours: hours, timecode: timecode, client: client)
+    @data_logging.log_time(username: @username, date: date, hours: hours, timecode: timecode, client: client)
   end
 
   def employee_report_time
-    time_log = @employee_data_logging.read_data
-    client_names = @admin.client_names
+    time_log = @data_logging.read_data
+    client_names = @data_logging.client_names
     project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
     client_hours = Array.new(client_names.length, 0)
     date_list = get_list_of_dates_worked_in_month(time_log, @username)
@@ -85,14 +85,14 @@ class TimeLoggerApp
       end
     end
     @io.display_hours_worked_per_project(AVAILABLE_TIMECODES, project_hours)
-    @io.display_hours_worked_per_client(@admin.client_names, client_hours)
+    @io.display_hours_worked_per_client(@data_logging.client_names, client_hours)
     @io.display_hours_worked_in_month(date_list, hours_worked_in_month)
   end
 
   def admin_report_time
-    time_log = @employee_data_logging.read_data
-    client_names = @admin.client_names
-    employee_names = @admin.employee_names
+    time_log = @data_logging.read_data
+    client_names = @data_logging.client_names
+    employee_names = @data_logging.employee_names
     project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
     client_hours = Array.new(client_names.length,0)
     employee_hours = Array.new(employee_names.length,0)
@@ -106,17 +106,17 @@ class TimeLoggerApp
 
   def admin_add_employee
     employee_data = @io.get_employee_info
-    @admin.add_employee(employee_data)
+    @data_logging.add_employee(employee_data)
   end
 
   def admin_add_client
     client_name = @io.get_client_name
-    @admin.add_client(client_name)
+    @data_logging.add_client([client_name])
   end
 
   def get_username
     @username = @io.input_username
-    while @admin.authorize_user(@username) == false
+    while @admin.authorize_user(@username, @data_logging.employee_names) == false
       @io.bad_user_name
       @username = @io.input_username
     end

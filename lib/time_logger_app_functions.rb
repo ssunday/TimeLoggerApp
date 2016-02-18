@@ -60,6 +60,26 @@ module TimeLoggerAppFunctions
     timecode.eql?("Billable Work")
   end
 
+  def get_employee_time_to_report(args = {})
+    args[:time_log].each do |row|
+      if row[0].eql?(args[:username])
+        date = row[1].split('/')
+        month = date[1].to_i
+        year = date[2].to_i
+        hours = row[2].to_i
+        employee_name = row[0]
+        client = row[4]
+        timecode = row[3]
+        time_worked_by_specification(hours: row[2].to_i , specific_attribute: row[1],
+                          all_attributes: args[:date_list], hours_collection: args[:hours_worked_in_month])
+        collect_hours_in_month(hours_collection: args[:client_hours], all_attributes: args[:client_names], specific_attribute: client,
+                                month: month, year: year, hours: hours)
+        collect_hours_in_month(hours_collection: args[:project_hours], all_attributes: AVAILABLE_TIMECODES, specific_attribute: timecode,
+                                month: month, year: year, hours: hours)
+      end
+    end
+  end
+
   def get_admin_time_to_report(args = {})
     args[:time_log].each do |row|
       date = row[1].split('/')
@@ -76,7 +96,5 @@ module TimeLoggerAppFunctions
       collect_hours_in_month(hours_collection: args[:project_hours], all_attributes: AVAILABLE_TIMECODES, specific_attribute: timecode,
                               month: month, year: year, hours: hours)
     end
-    return
   end
-
 end

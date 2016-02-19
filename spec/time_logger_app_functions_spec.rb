@@ -167,8 +167,6 @@ describe TimeLoggerAppFunctions do
       is_admin = false
       expect(assign_menu(is_admin)).to eql MENU_EMPLOYEE
     end
-
   end
-
 
 end

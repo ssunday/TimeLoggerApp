@@ -68,8 +68,9 @@ class TimeLoggerDataLogging
   private
 
   def default_admin
+    default_admin_information = ["default_admin", true]
     CSV.open(@employees_file_name, "ab") do |csv|
-      csv << ["default_admin", true]
+      csv << default_admin_information
     end
   end
 

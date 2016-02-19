@@ -54,19 +54,19 @@ class TimeLoggerInputOutput
   def select_timecode(available_timecodes)
     puts "Choose one of the following time codes by selecting the number:"
     iterate_through_list_with_numbers(available_timecodes)
-    select_option(available_timecodes.length-1)
+    select_option
   end
 
   def select_client(clients)
     puts "Please select client: "
     iterate_through_list_with_numbers(clients)
-    select_option(clients.length-1)
+    select_option
   end
 
-  def select_option(menu_length)
+  def select_option
     puts "Please select which option by choosing the number."
     option = gets.chomp
-    while option =~ /\A\d+\z/ ? false : true || option < 1 || option > menu_length
+    while option =~ /\A\d+\z/ ? false : true
       bad_option
       option = gets.chomp
     end
@@ -78,18 +78,8 @@ class TimeLoggerInputOutput
   end
 
   def get_employee_info(employee_names)
-    puts "Please enter employee's username."
-    username = gets.chomp
-    while employee_names.include?(username)
-      puts "Sorry, that username is already taken. Please enter a new one."
-      username = gets.chomp
-    end
-    puts "Please enter true if they are admin and false if they are not."
-    is_admin = gets.chomp
-    while is_admin != "true" &&  is_admin != "false"
-      puts "Invalid option. Try again."
-      is_admin = gets.chomp
-    end
+    username = get_employee_username(employee_names)
+    is_admin = get_whether_employee_admin
     [username, is_admin]
   end
 
@@ -129,6 +119,26 @@ class TimeLoggerInputOutput
   end
 
   private
+
+  def get_employee_username(employee_names)
+    puts "Please enter employee's username."
+    username = gets.chomp
+    while employee_names.include?(username)
+      puts "Sorry, that username is already taken. Please enter a new one."
+      username = gets.chomp
+    end
+    username
+  end
+
+  def get_whether_employee_admin
+    puts "Please enter true if they are admin and false if they are not."
+    is_admin = gets.chomp
+    while is_admin != "true" &&  is_admin != "false"
+      puts "Invalid option. Try again."
+      is_admin = gets.chomp
+    end
+    is_admin
+  end
 
   def iterate_over_names_and_hours(name_list, hours_list)
     if name_list.length == 0

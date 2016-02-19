@@ -18,11 +18,11 @@ class TimeLoggerApp
   def run
     @io.welcome_message
     get_username
-    get_whether_admin
+    assign_whether_admin_or_not
     menu = assign_menu(@is_admin)
     while @in_use
       @io.display_menu(menu)
-      option = @io.select_option(menu.length - 1)
+      option = @io.select_option
       do_menu_option(menu.length, option)
     end
     @io.end_message
@@ -51,7 +51,7 @@ class TimeLoggerApp
     hours = @io.hours_worked
     timecode_selection = @io.select_timecode(AVAILABLE_TIMECODES) - 1
     timecode = get_timecode(timecode_selection)
-    client = billable_work?(timecode) ? @admin.client_names[@io.select_client(@admin.client_names) - 1] : nil
+    client = billable_work?(timecode) ? @data_logging.client_names[@io.select_client(@data_logging.client_names) - 1] : nil
     @data_logging.log_time([@username, date, hours, timecode, client])
   end
 
@@ -101,7 +101,9 @@ class TimeLoggerApp
     end
   end
 
-  def get_whether_admin
+  private
+
+  def assign_whether_admin_or_not
     @is_admin = @admin.admin_from_authorized_username?(@username, @data_logging.employee_data)
   end
 

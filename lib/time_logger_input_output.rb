@@ -23,22 +23,39 @@ class TimeLoggerInputOutput
     puts "Sorry, but that username is not in our system."
   end
 
+  def specify_date_and_time
+    date = specify_date
+    time = specify_time
+    date + " " + time
+  end
+
   def specify_date
     puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."
     inputted_date = gets.chomp
     date_collection = inputted_date.split('/')
-    while Date.valid_date?(date_collection[2].to_i, date_collection[1].to_i, date_collection[0].to_i) == false
-      puts "Sorry that date is invalid."
+    while Date.valid_date?(date_collection[2].to_i, date_collection[1].to_i, date_collection[0].to_i) == false \
+      || Date.parse(inputted_date) >= Date.today
+      puts "Sorry, that date is invalid."
       inputted_date = gets.chomp
       date_collection = inputted_date.split('/')
     end
-    date = Date.parse(inputted_date)
-    while date >= Date.today
-      puts "Sorry that date is in the future."
-      inputted_date = gets.chomp
-      date = Date.parse(inputted_date)
+    Date.parse(inputted_date).strftime('%-d/%-m/%Y')
+  end
+
+  def specify_time
+    puts "Specify the time that you are logging this at in HH:MM AM/PM format or military format."
+    inputted_time = gets.chomp
+    bad_time = true
+    while bad_time
+      begin
+        Time.parse(inputted_time)
+        bad_time = false
+      rescue ArgumentError
+        puts "Sorry, that time is invalid."
+        inputted_time = gets.chomp
+      end
     end
-    date = date.strftime('%-d/%-m/%Y')
+    Time.parse(inputted_time).strftime("%k:%M")
   end
 
   def hours_worked

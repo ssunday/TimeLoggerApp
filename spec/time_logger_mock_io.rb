@@ -2,12 +2,13 @@ class TimeLoggerMockIO
 
   attr_writer :username, :client_name, :client_name_index, :date, :hours, \
               :timecode_index, :employee_name, :employee_is_admin, \
-              :option
+              :option, :time
 
   def initialize
     @username = "test"
     @client_name_index = 0
     @date = "2/2/2016"
+    @time = "10:10"
     @hours = 5
     @client_name = "Foo"
     @timecode_index = 1
@@ -27,6 +28,10 @@ class TimeLoggerMockIO
   end
 
   def bad_user_name
+  end
+
+  def specify_time
+    @time
   end
 
   def specify_date
@@ -50,6 +55,10 @@ class TimeLoggerMockIO
   end
 
   def bad_option
+  end
+
+  def specify_date_and_time
+    @date + " " + @time
   end
 
   def get_employee_info(employee_names)

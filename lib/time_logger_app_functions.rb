@@ -1,3 +1,5 @@
+require 'date'
+
 module TimeLoggerAppFunctions
 
   AVAILABLE_TIMECODES = ["Billable Work",
@@ -32,13 +34,13 @@ module TimeLoggerAppFunctions
     dates = []
     data.each do |time_log_data|
       if time_log_data[0].eql?(username)
-        date = Date.parse(time_log_data[1])
+        date = DateTime.parse(time_log_data[1])
         if date_in_current_month(date.month, date.year)
           dates << time_log_data[1]
         end
       end
     end
-    dates = dates.map {|s| Date.parse(s)}
+    dates = dates.map {|s| DateTime.parse(s)}
     dates = dates.sort
     dates = dates.map {|date| date.strftime('%-d/%-m/%Y')}
     dates.uniq
@@ -62,12 +64,13 @@ module TimeLoggerAppFunctions
   def get_employee_time_to_report(args = {})
     args[:time_log].each do |row|
       if row[0].eql?(args[:username])
-        date = Date.parse(row[1])
+        date = DateTime.parse(row[1])
+        date_plain = date.strftime('%-d/%-m/%Y')
         hours = row[2].to_i
         employee_name = row[0]
         client = row[4]
         timecode = row[3]
-        time_worked_by_specification(hours: hours, specific_attribute: row[1],
+        time_worked_by_specification(hours: hours, specific_attribute: date_plain,
                           all_attributes: args[:date_list], hours_collection: args[:hours_worked_in_month])
         collect_hours_in_month(hours_collection: args[:client_hours], all_attributes: args[:client_names], specific_attribute: client,
                                 month: date.month, year: date.year, hours: hours)
@@ -79,7 +82,7 @@ module TimeLoggerAppFunctions
 
   def get_admin_time_to_report(args = {})
     args[:time_log].each do |row|
-      date = Date.parse(row[1])
+      date = DateTime.parse(row[1])
       hours = row[2].to_i
       employee_name = row[0]
       client = row[4]

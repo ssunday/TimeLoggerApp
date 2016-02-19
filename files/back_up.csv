@@ -1,0 +1,24 @@
+s1,5/3/2012,10,PTO,
+s1,2/2/2015,20,Billable Work,Foogle
+s1,2/1/2016,1,Billable Work,Some Other Company
+s1,10/2/2016,15,Billable Work,Foogle
+s1,4/2/2016,12,Billable Work,Some Other Company
+bob,1/2/2016,5,PTO,
+s1,1/2/2016,2,PTO,
+s1,5/2/2016,4,Non-billable work,
+s1,5/2/2016,10,PTO,
+bob,14/12/2010,4,Billable Work,ThatGameCompany
+s1,1/1/2011,7,PTO,
+bob,4/2/2016,1,Billable Work,FoodMart
+bob,17/2/2016,3,Billable Work,Some Other Company
+bob,2/2/2016,1,PTO,
+bob,3/3/2010,6,Non-billable work,
+jane,3/2/2016,10,Non-billable work,
+bob,3/3/2015,2,Billable Work,Something1
+s1,2/2/2010,5,PTO,
+s1,8/8/2013,2,Non-billable work,
+bob,5/5/2015,4,Non-billable work,
+bob,6/6/2011,10,PTO,
+jane,5/2/2016,6,PTO,
+jane,1/1/2010,1,Non-billable work,
+jane,4/5/2010,1,Non-billable work,

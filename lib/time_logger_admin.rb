@@ -4,12 +4,9 @@ class TimeLoggerAdmin
     employee_names.include?(username)
   end
 
-  def admin_from_username?(username, employee_data)
-    employee_data.each do |set|
-      if username.eql?(set[0])
-        return set[1].eql?("true")
-      end
-    end
+  def admin_from_authorized_username?(username, employee_data)
+    username_index = employee_data.index(employee_data.detect{|aa| aa.include?(username)})
+    employee_data[username_index][1].eql?("true")
   end
 
 end

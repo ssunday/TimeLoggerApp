@@ -156,5 +156,19 @@ describe TimeLoggerAppFunctions do
     expect(hours_worked_in_month).to eql [hours1+hours2]
   end
 
+  describe "#assign_menu" do
+
+    it "assigns admin menu for true is_admin value" do
+      is_admin = true
+      expect(assign_menu(is_admin)).to eql MENU_ADMIN
+    end
+
+    it "assigns employee menu for false is_admin value" do
+      is_admin = false
+      expect(assign_menu(is_admin)).to eql MENU_EMPLOYEE
+    end
+
+  end
+
 
 end

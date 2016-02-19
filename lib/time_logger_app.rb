@@ -18,12 +18,8 @@ class TimeLoggerApp
   def run
     @io.welcome_message
     get_username
-    @is_admin = @admin.admin_from_username?(@username, @data_logging.employee_data)
-    if @is_admin
-      menu = MENU_ADMIN
-    else
-      menu = MENU_EMPLOYEE
-    end
+    get_whether_admin
+    menu = assign_menu(@is_admin)
     while @in_use
       @io.display_menu(menu)
       option = @io.select_option(menu.length - 1)
@@ -103,6 +99,10 @@ class TimeLoggerApp
       @io.bad_user_name
       @username = @io.input_username
     end
+  end
+
+  def get_whether_admin
+    @is_admin = @admin.admin_from_authorized_username?(@username, @data_logging.employee_data)
   end
 
 end

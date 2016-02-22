@@ -129,6 +129,7 @@ describe TimeLoggerAppFunctions do
     get_admin_time_to_report(time_log: time_log, project_hours: project_hours,
                       client_hours: client_hours, employee_hours: employee_hours,
                       client_names: @client_names, employee_names: @employee_list)
+    #modifing input params is not typically done in ruby. Return them instead
     expect(client_hours).to eql [hours2,0]
     expect(project_hours).to eql [hours2,hours1,hours3]
     expect(employee_hours).to eql [hours1,hours2,hours3]

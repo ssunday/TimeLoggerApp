@@ -2,6 +2,7 @@ require "time_logger_app"
 require_relative "time_logger_mock_io.rb"
 require "csv"
 
+#should be able to test independently from the data logger
 describe TimeLoggerApp do
 
   def clear_files

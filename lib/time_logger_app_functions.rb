@@ -1,5 +1,8 @@
 require 'date'
 
+#This can easily become a dumping ground for any function
+#Is there any cohesion between the functions here?
+#What is a better name?
 module TimeLoggerAppFunctions
 
   AVAILABLE_TIMECODES = ["Billable Work",
@@ -61,6 +64,9 @@ module TimeLoggerAppFunctions
     timecode.eql?("Billable Work")
   end
 
+  #The knowledge of which fields are in which row should be encapsulated
+  #in the data logging class.  If you changed the column layout, which
+  #files would have to change?
   def get_employee_time_to_report(args = {})
     args[:time_log].each do |row|
       if row[0].eql?(args[:username])
@@ -80,6 +86,7 @@ module TimeLoggerAppFunctions
     end
   end
 
+  #it's not clear what the inputs and outputs to this function are
   def get_admin_time_to_report(args = {})
     args[:time_log].each do |row|
       date = DateTime.parse(row[1])

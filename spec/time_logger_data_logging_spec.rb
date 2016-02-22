@@ -66,6 +66,8 @@ describe TimeLoggerDataLogging do
     expect(data[0]).to eql employee
   end
 
+  #this shows how the fact that the data is being stored as csv is leaking
+  #out past the data store
   it "#employee_names returns list of just employee_names" do
     employee1 = ["sasunday", "false"]
     employee2 = ["john", "true"]

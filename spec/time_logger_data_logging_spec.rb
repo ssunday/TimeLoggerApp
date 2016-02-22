@@ -33,14 +33,12 @@ describe TimeLoggerDataLogging do
 
   it "can save username, date, hours, and timecode to default file" do
     recorded_data = no_client_log
-    data = CSV.read(@file_name)
-    expect(data[0]).to eql recorded_data
+    expect(@logger.get_specific_time_log_entry(0)).to eql recorded_data
   end
 
   it "can save username, date, hours, timecode, and client to default file" do
     recorded_data = client_log
-    data = CSV.read(@file_name)
-    expect(data[0]).to eql recorded_data
+    expect(@logger.get_specific_time_log_entry(0)).to eql recorded_data
   end
 
   it "can retrieve array of all rows" do
@@ -54,16 +52,14 @@ describe TimeLoggerDataLogging do
     default_admin = TimeLoggerDataLogging.new(time_log_file_name: @file_name,
                                               clients_file_name: @clients_file_name,
                                               employees_file_name: @employees_file_name)
-    data = CSV.read(@employees_file_name)
-    expect(data[0]).to eql ["default_admin", "true"]
+    expect(@logger.get_specific_employee_data_entry(0)).to eql ["default_admin", "true"]
   end
 
 
   it "#add_employee" do
     employee = ["sasunday", "false"]
     @logger.add_employee(employee)
-    data = CSV.read(@employees_file_name)
-    expect(data[0]).to eql employee
+    expect(@logger.get_specific_employee_data_entry(0)).to eql employee
   end
 
   it "#employee_names returns list of just employee_names" do
@@ -77,8 +73,7 @@ describe TimeLoggerDataLogging do
   it "#add_client" do
     client_name = ["Generic Company Name"]
     @logger.add_client(client_name)
-    data = CSV.read(@clients_file_name)
-    expect(data[0]).to eql client_name
+    expect(@logger.get_specific_client_name_entry(0)).to eql client_name
   end
 
   it "#client_names returns one-d array of client names" do
@@ -93,14 +88,14 @@ describe TimeLoggerDataLogging do
     client_name = ["Generic Company Name"]
     @logger.add_client(client_name)
     @logger.clear_client_file
-    expect(CSV.read(@clients_file_name).length).to eql 0
+    expect(@logger.client_names.length).to eql 0
   end
 
   it "#clear_employees_file" do
     employee = ["sasunday", "false"]
     @logger.add_employee(employee)
     @logger.clear_employees_file
-    expect(CSV.read(@employees_file_name).length).to eql 0
+    expect(@logger.employee_data.length).to eql 0
   end
 
 end

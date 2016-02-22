@@ -27,6 +27,18 @@ class TimeLoggerDataLogging
     end
   end
 
+  def get_specific_time_log_entry(entry_instance)
+    CSV.read(@time_log_file_name)[entry_instance]
+  end
+
+  def get_specific_employee_data_entry(entry_instance)
+    CSV.read(@employees_file_name)[entry_instance]
+  end
+
+  def get_specific_client_name_entry(entry_instance)
+    CSV.read(@clients_file_name)[entry_instance]
+  end
+
   def client_names
     CSV.read(@clients_file_name).flatten
   end

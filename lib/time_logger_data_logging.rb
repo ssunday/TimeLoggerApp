@@ -27,18 +27,6 @@ class TimeLoggerDataLogging
     end
   end
 
-  def get_specific_time_log_entry(entry_instance)
-    CSV.read(@time_log_file_name)[entry_instance]
-  end
-
-  def get_specific_employee_data_entry(entry_instance)
-    CSV.read(@employees_file_name)[entry_instance]
-  end
-
-  def get_specific_client_name_entry(entry_instance)
-    CSV.read(@clients_file_name)[entry_instance]
-  end
-
   def client_names
     CSV.read(@clients_file_name).flatten
   end
@@ -53,8 +41,7 @@ class TimeLoggerDataLogging
     time_log_data.collect {|ind|
       if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year
             [ind[0], ind [2].to_i]
-      end
-                                }
+      end}.compact
   end
 
   def time_codes_and_hours_for_current_month
@@ -62,7 +49,7 @@ class TimeLoggerDataLogging
     time_log_data.collect {|ind|
       if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year
             [ind[3], ind[2].to_i]
-      end}
+      end}.compact
   end
 
   def time_codes_and_hours_for_current_month_and_username(username)
@@ -71,7 +58,7 @@ class TimeLoggerDataLogging
       if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year \
         && username.eql?(ind[0])
             [ind[3], ind[2].to_i]
-      end}
+      end}.compact
   end
 
   def client_names_and_hours_for_current_month
@@ -79,7 +66,7 @@ class TimeLoggerDataLogging
     time_log_data.collect {|ind|
         if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year
             [ind[4], ind[2].to_i]
-        end}
+        end}.compact
   end
 
   def client_names_and_hours_for_current_month_and_username(username)
@@ -88,7 +75,7 @@ class TimeLoggerDataLogging
         if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year \
           && username.eql?(ind[0])
             [ind[4], ind[2].to_i]
-        end}
+        end}.compact
   end
 
   def dates_and_hours_for_current_month_and_username(username)
@@ -97,7 +84,7 @@ class TimeLoggerDataLogging
         if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year \
           && username.eql?(ind[0])
             [DateTime.parse(ind[1]).strftime('%-d/%-m/%Y'), ind[2].to_i]
-        end}
+        end}.compact
   end
 
   def get_list_of_dates_worked_in_month_by_user(username)

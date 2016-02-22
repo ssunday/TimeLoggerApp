@@ -31,35 +31,39 @@ describe TimeLoggerDataLogging do
     @logger.clear_data
   end
 
-  it "can save username, date, hours, and timecode to default file" do
-    recorded_data = no_client_log
-    expect(@logger.get_specific_time_log_entry(0)).to eql recorded_data
+  describe "#log_time" do
+
+    it "can save username, date, hours, and timecode to default file" do
+      recorded_data = no_client_log
+      expect(@logger.read_time_log_data[0]).to eql recorded_data
+    end
+
+    it "can save username, date, hours, timecode, and client to default file" do
+      recorded_data = client_log
+      expect(@logger.read_time_log_data[0]).to eql recorded_data
+    end
+
   end
 
-  it "can save username, date, hours, timecode, and client to default file" do
-    recorded_data = client_log
-    expect(@logger.get_specific_time_log_entry(0)).to eql recorded_data
-  end
 
   it "can retrieve array of all rows" do
     no_client = no_client_log
     client = client_log
-    data = @logger.read_time_log_data
-    expect(data).to eql [no_client, client]
+    expect(@logger.read_time_log_data).to eql [no_client, client]
   end
 
   it "adds a default admin" do
     default_admin = TimeLoggerDataLogging.new(time_log_file_name: @file_name,
                                               clients_file_name: @clients_file_name,
                                               employees_file_name: @employees_file_name)
-    expect(@logger.get_specific_employee_data_entry(0)).to eql ["default_admin", "true"]
+    expect(@logger.employee_data[0]).to eql ["default_admin", "true"]
   end
 
 
   it "#add_employee" do
     employee = ["sasunday", "false"]
     @logger.add_employee(employee)
-    expect(@logger.get_specific_employee_data_entry(0)).to eql employee
+    expect(@logger.employee_data[0]).to eql employee
   end
 
   it "#client_names_and_hours_for_current_month returns list of client names and hours for current month" do
@@ -67,10 +71,31 @@ describe TimeLoggerDataLogging do
     expect(@logger.client_names_and_hours_for_current_month).to eql [[client[4], client[2].to_i]]
   end
 
+  describe "#client_names_and_hours_for_current_month_and_username" do
+
+    it "returns empty list when username does not have any matches" do
+      client = client_log
+      expect(@logger.client_names_and_hours_for_current_month_and_username("Someone else")).to eql []
+    end
+
+    it "returns list of client names and hours for current month and specific username" do
+      client = client_log
+      expect(@logger.client_names_and_hours_for_current_month_and_username(client[0])).to eql [[client[4], client[2].to_i]]
+    end
+
+  end
+
+
   it "#time_codes_and_hours_for_current_month returns list of timecodes and hours for current month" do
     client = client_log
     no_client = no_client_log
     expect(@logger.time_codes_and_hours_for_current_month).to eql [[client[3], client[2].to_i], [no_client[3], no_client[2].to_i]]
+  end
+
+  it "#time_codes_and_hours_for_current_month_and_username returns list of timecodes and hours for current month and specific username" do
+    client = client_log
+    no_client = no_client_log
+    expect(@logger.time_codes_and_hours_for_current_month_and_username(client[0])).to eql [[client[3], client[2].to_i]]
   end
 
   it "#employee_names_and_hours_for_current_month returns list of employees and hours for current month" do
@@ -90,7 +115,7 @@ describe TimeLoggerDataLogging do
   it "#add_client" do
     client_name = ["Generic Company Name"]
     @logger.add_client(client_name)
-    expect(@logger.get_specific_client_name_entry(0)).to eql client_name
+    expect(@logger.client_names).to eql client_name
   end
 
   it "#client_names returns one-d array of client names" do

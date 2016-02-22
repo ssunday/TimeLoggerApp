@@ -5,3 +5,4 @@ bob,2/2/2016  5:55,5,Billable Work,Some Other Company
 s1,4/2/2016 16:00,4,PTO,
 bob,10/2/2016  8:00,1,Non-billable work,
 jane,22/2/2016  4:00,4,Billable Work,FoodMart
+jane,22/2/2016 23:00,1,Billable Work,Foogle

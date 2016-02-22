@@ -32,12 +32,9 @@ class TimeLoggerInputOutput
   def specify_date
     puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."
     inputted_date = gets.chomp
-    date_collection = inputted_date.split('/')
-    while Date.valid_date?(date_collection[2].to_i, date_collection[1].to_i, date_collection[0].to_i) == false \
-      || Date.parse(inputted_date) > Date.today
+    while date_valid?(inputted_date)
       puts "Sorry, that date is invalid."
       inputted_date = gets.chomp
-      date_collection = inputted_date.split('/')
     end
     Date.parse(inputted_date).strftime('%-d/%-m/%Y')
   end
@@ -136,6 +133,14 @@ class TimeLoggerInputOutput
   end
 
   private
+
+  def date_valid?(inputted_date)
+    date_collection = inputted_date.split('/')
+    year = date_collection[2].to_i
+    month = date_collection[1].to_i
+    day = date_collection[0].to_i
+    Date.valid_date?(year, month, day ) == false || Date.parse(inputted_date) > Date.today
+  end
 
   def get_employee_username(employee_names)
     puts "Please enter employee's username."

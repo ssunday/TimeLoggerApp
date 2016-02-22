@@ -1,3 +1,4 @@
+#nice mock object!
 class TimeLoggerMockIO
 
   attr_writer :username, :client_name, :client_name_index, :date, :hours, \

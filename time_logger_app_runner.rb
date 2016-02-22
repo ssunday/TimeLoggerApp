@@ -1,3 +1,6 @@
+#move to a bin folder
+#set load path
+#use plain requires
 require_relative "lib/time_logger_app.rb"
 require_relative "lib/time_logger_input_output.rb"
 

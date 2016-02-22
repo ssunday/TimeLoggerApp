@@ -32,6 +32,7 @@ class TimeLoggerInputOutput
   def specify_date
     puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."
     inputted_date = gets.chomp
+    #catch date parse exceptions as validation?
     date_collection = inputted_date.split('/')
     while Date.valid_date?(date_collection[2].to_i, date_collection[1].to_i, date_collection[0].to_i) == false \
       || Date.parse(inputted_date) >= Date.today

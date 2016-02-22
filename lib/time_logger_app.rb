@@ -1,3 +1,4 @@
+#Let's stop using require_relative and start setting the load path properly
 require_relative "time_logger_app_functions.rb"
 require_relative "time_logger_admin.rb"
 require_relative "time_logger_data_logging.rb"
@@ -9,6 +10,7 @@ class TimeLoggerApp
   def initialize(input_output, filenames = {})
     @io = input_output
     @admin = TimeLoggerAdmin.new
+    #This dependency should be injected
     @data_logging = TimeLoggerDataLogging.new(time_log_file_name: filenames[:time_log_file_name],
                                                         clients_file_name: filenames[:clients_file_name],
                                                         employees_file_name: filenames[:employees_file_name])
@@ -28,6 +30,8 @@ class TimeLoggerApp
     @io.end_message
   end
 
+  #use case statement?
+  #consider the command pattern - Think about the open-closed principle
   def do_menu_option(menu_length, option)
     if option == menu_length
       @in_use = false

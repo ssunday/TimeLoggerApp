@@ -55,31 +55,23 @@ class TimeLoggerApp
   end
 
   def employee_report_time
-    time_log = @data_logging.read_time_log_data
-    client_names = @data_logging.client_names
-    project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
-    client_hours = Array.new(client_names.length, 0)
-    date_list = get_list_of_dates_worked_in_month(time_log, @username)
-    hours_worked_in_month = Array.new(date_list.length, 0)
-    get_employee_time_to_report(time_log: time_log, username: @username, project_hours: project_hours,
-                      client_hours: client_hours, hours_worked_in_month: hours_worked_in_month,
-                      client_names: client_names, date_list: date_list)
-    @io.display_project_and_client_hours(AVAILABLE_TIMECODES, client_names, project_hours, client_hours)
+    date_list = @data_logging.get_list_of_dates_worked_in_month_by_user(@username)
+    project_hours = collect_hours_worked_by_specification(AVAILABLE_TIMECODES,
+                        @data_logging.time_codes_and_hours_for_current_month_and_username(@username))
+    client_hours = collect_hours_worked_by_specification(@data_logging.client_names,
+                                        @data_logging.client_names_and_hours_for_current_month_and_username(@username))
+    hours_worked_in_month = collect_hours_worked_by_specification(date_list,
+                                      @data_logging.dates_and_hours_for_current_month_and_username(@username))
+    @io.display_project_and_client_hours(AVAILABLE_TIMECODES, @data_logging.client_names, project_hours, client_hours)
     @io.display_hours_worked_in_month(date_list, hours_worked_in_month)
   end
 
   def admin_report_time
-    time_log = @data_logging.read_time_log_data
-    client_names = @data_logging.client_names
-    employee_names = @data_logging.employee_names
-    project_hours = Array.new(AVAILABLE_TIMECODES.length, 0)
-    client_hours = Array.new(client_names.length,0)
-    employee_hours = Array.new(employee_names.length,0)
-    get_admin_time_to_report(time_log: time_log, project_hours: project_hours,
-                      client_hours: client_hours, employee_hours: employee_hours,
-                      client_names: client_names, employee_names: employee_names)
-    @io.display_project_and_client_hours(AVAILABLE_TIMECODES, client_names, project_hours, client_hours)
-    @io.display_hours_worked_by_employee(employee_names, employee_hours)
+    project_hours = collect_hours_worked_by_specification(AVAILABLE_TIMECODES, @data_logging.time_codes_and_hours_for_current_month)
+    client_hours = collect_hours_worked_by_specification(@data_logging.client_names, @data_logging.client_names_and_hours_for_current_month)
+    employee_hours = collect_hours_worked_by_specification(@data_logging.employee_names, @data_logging.employee_names_and_hours_for_current_month)
+    @io.display_project_and_client_hours(AVAILABLE_TIMECODES, @data_logging.client_names, project_hours, client_hours)
+    @io.display_hours_worked_by_employee(@data_logging.employee_names, employee_hours)
   end
 
   def admin_add_employee

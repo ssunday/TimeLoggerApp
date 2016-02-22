@@ -4,7 +4,7 @@ describe TimeLoggerDataLogging do
 
   def no_client_log
     username = "Test1"
-    date = "2/15/2016"
+    date = Date.today.strftime('%-d/%-m/%Y')
     hours = "4"
     timecode = "PTO"
     @logger.log_time([username, date, hours, timecode, nil])
@@ -13,7 +13,7 @@ describe TimeLoggerDataLogging do
 
   def client_log
     username = "Test2"
-    date = "2/10/2016"
+    date = Date.today.strftime('%-d/%-m/%Y')
     hours = "2"
     timecode = "Billable Work"
     client = "Bob"
@@ -60,6 +60,23 @@ describe TimeLoggerDataLogging do
     employee = ["sasunday", "false"]
     @logger.add_employee(employee)
     expect(@logger.get_specific_employee_data_entry(0)).to eql employee
+  end
+
+  it "#client_names_and_hours_for_current_month returns list of client names and hours for current month" do
+    client = client_log
+    expect(@logger.client_names_and_hours_for_current_month).to eql [[client[4], client[2].to_i]]
+  end
+
+  it "#time_codes_and_hours_for_current_month returns list of timecodes and hours for current month" do
+    client = client_log
+    no_client = no_client_log
+    expect(@logger.time_codes_and_hours_for_current_month).to eql [[client[3], client[2].to_i], [no_client[3], no_client[2].to_i]]
+  end
+
+  it "#employee_names_and_hours_for_current_month returns list of employees and hours for current month" do
+    client = client_log
+    no_client = no_client_log
+    expect(@logger.employee_names_and_hours_for_current_month).to eql [[client[0], client[2].to_i], [no_client[0], no_client[2].to_i]]
   end
 
   it "#employee_names returns list of just employee_names" do

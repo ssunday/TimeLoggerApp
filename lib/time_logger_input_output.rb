@@ -34,7 +34,7 @@ class TimeLoggerInputOutput
     inputted_date = gets.chomp
     date_collection = inputted_date.split('/')
     while Date.valid_date?(date_collection[2].to_i, date_collection[1].to_i, date_collection[0].to_i) == false \
-      || Date.parse(inputted_date) >= Date.today
+      || Date.parse(inputted_date) > Date.today
       puts "Sorry, that date is invalid."
       inputted_date = gets.chomp
       date_collection = inputted_date.split('/')

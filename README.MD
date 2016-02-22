@@ -20,7 +20,7 @@ Clone the repository onto desktop. Uses Ruby 2.2.1.
 
 ### Usage
 
-Run the following in the command line in the /TimeLoggerApp folder.
+Run the following in the command line in the /TimeLoggerApp/bin folder.
 ```
 ruby time_logger_app_runner.rb
 ```

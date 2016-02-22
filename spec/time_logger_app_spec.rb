@@ -1,5 +1,6 @@
 require "time_logger_app"
-require_relative "time_logger_mock_io.rb"
+require "time_logger_mock_io"
+require "time_logger_data_logging"
 require "csv"
 
 describe TimeLoggerApp do
@@ -25,9 +26,9 @@ describe TimeLoggerApp do
 
     @mock_io = TimeLoggerMockIO.new
     @app = TimeLoggerApp.new(@mock_io,
-                          employees_file_name: @employee_test_file,
-                          clients_file_name: @client_test_file,
-                          time_log_file_name: @time_log_test_file)
+    TimeLoggerDataLogging.new(time_log_file_name: @time_log_test_file,
+                                clients_file_name: @client_test_file,
+                                employees_file_name: @employee_test_file))
   end
 
   it "#admin_add_client adds client to file" do

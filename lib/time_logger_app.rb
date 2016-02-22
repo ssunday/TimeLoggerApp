@@ -1,17 +1,16 @@
-require_relative "time_logger_app_functions.rb"
-require_relative "time_logger_admin.rb"
-require_relative "time_logger_data_logging.rb"
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+require "time_logger_admin"
+require "time_logger_app_functions"
 
 class TimeLoggerApp
 
   include TimeLoggerAppFunctions
 
-  def initialize(input_output, filenames = {})
+  def initialize(input_output, data_logging)
     @io = input_output
     @admin = TimeLoggerAdmin.new
-    @data_logging = TimeLoggerDataLogging.new(time_log_file_name: filenames[:time_log_file_name],
-                                                        clients_file_name: filenames[:clients_file_name],
-                                                        employees_file_name: filenames[:employees_file_name])
+    @data_logging = data_logging
     @in_use = true
   end
 

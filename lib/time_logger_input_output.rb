@@ -29,32 +29,6 @@ class TimeLoggerInputOutput
     date + " " + time
   end
 
-  def specify_date
-    puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."
-    inputted_date = gets.chomp
-    while date_valid?(inputted_date)
-      puts "Sorry, that date is invalid."
-      inputted_date = gets.chomp
-    end
-    Date.parse(inputted_date).strftime('%-d/%-m/%Y')
-  end
-
-  def specify_time
-    puts "Specify the time that you are logging this at in HH:MM AM/PM format or military format."
-    inputted_time = gets.chomp
-    bad_time = true
-    while bad_time
-      begin
-        Time.parse(inputted_time)
-        bad_time = false
-      rescue ArgumentError
-        puts "Sorry, that time is invalid."
-        inputted_time = gets.chomp
-      end
-    end
-    Time.parse(inputted_time).strftime("%k:%M")
-  end
-
   def hours_worked
     puts "Enter Hours Worked:"
     hours = gets.chomp
@@ -104,12 +78,7 @@ class TimeLoggerInputOutput
       puts "Sorry, that client already exists. Please enter a new one."
       new_client = gets.chomp
     end
-    new_client
-  end
-
-  def display_project_and_client_hours(timecodes, client_names, project_hours, client_hours)
-    display_hours_worked_per_project(timecodes, project_hours)
-    display_hours_worked_per_client(client_names, client_hours)
+    [new_client]
   end
 
   def display_hours_worked_in_month(date_list, hours_worked_in_each)
@@ -159,8 +128,35 @@ class TimeLoggerInputOutput
       puts "Invalid option. Try again."
       is_admin = gets.chomp
     end
-    is_admin
+    is_admin.eql?("true")
   end
+
+  def specify_date
+    puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."
+    inputted_date = gets.chomp
+    while date_valid?(inputted_date)
+      puts "Sorry, that date is invalid."
+      inputted_date = gets.chomp
+    end
+    Date.parse(inputted_date).strftime('%-d/%-m/%Y')
+  end
+
+  def specify_time
+    puts "Specify the time that you are logging this at in HH:MM AM/PM format or military format."
+    inputted_time = gets.chomp
+    bad_time = true
+    while bad_time
+      begin
+        Time.parse(inputted_time)
+        bad_time = false
+      rescue ArgumentError
+        puts "Sorry, that time is invalid."
+        inputted_time = gets.chomp
+      end
+    end
+    Time.parse(inputted_time).strftime("%k:%M")
+  end
+
 
   def iterate_over_names_and_hours(name_list, hours_list)
     if name_list.length == 0

@@ -32,10 +32,10 @@ describe TimeLoggerApp do
   end
 
   it "#admin_add_client adds client to file" do
-    name = "Foo"
+    name = ["Foo"]
     @mock_io.client_name = name
     @app.admin_add_client
-    expect(CSV.read(@client_test_file)[0]).to eql [name]
+    expect(CSV.read(@client_test_file)[0]).to eql name
   end
 
   it "#admin_add_employee adds employee to file" do

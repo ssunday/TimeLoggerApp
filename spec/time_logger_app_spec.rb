@@ -1,6 +1,6 @@
 require "time_logger_app"
 require "time_logger_mock_io"
-require "time_logger_data_logging"
+require "time_logger_data_repository"
 require "csv"
 
 describe TimeLoggerApp do
@@ -26,7 +26,7 @@ describe TimeLoggerApp do
 
     @mock_io = TimeLoggerMockIO.new
     @app = TimeLoggerApp.new(@mock_io,
-    TimeLoggerDataLogging.new(time_log_file_name: @time_log_test_file,
+    TimeLoggerDataRepository.new(time_log_file_name: @time_log_test_file,
                                 clients_file_name: @client_test_file,
                                 employees_file_name: @employee_test_file))
   end

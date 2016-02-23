@@ -1,6 +1,6 @@
-require "time_logger_data_logging"
+require "time_logger_data_repository"
 
-describe TimeLoggerDataLogging do
+describe TimeLoggerDataRepository do
 
   def no_client_log
     username = "Test1"
@@ -25,7 +25,7 @@ describe TimeLoggerDataLogging do
     @file_name = "spec/test_files/timelog.csv"
     @employees_file_name = "spec/test_files/employees.csv"
     @clients_file_name = "spec/test_files/clients.csv"
-    @logger = TimeLoggerDataLogging.new(time_log_file_name: @file_name,
+    @logger = TimeLoggerDataRepository.new(time_log_file_name: @file_name,
                                         clients_file_name: @clients_file_name,
                                         employees_file_name: @employees_file_name)
     @logger.clear_data
@@ -53,15 +53,15 @@ describe TimeLoggerDataLogging do
   end
 
   it "adds a default admin" do
-    default_admin = TimeLoggerDataLogging.new(time_log_file_name: @file_name,
+    default_admin = TimeLoggerDataRepository.new(time_log_file_name: @file_name,
                                               clients_file_name: @clients_file_name,
                                               employees_file_name: @employees_file_name)
-    expect(@logger.employee_data[0]).to eql ["default_admin", "true"]
+    expect(@logger.employee_data[0]).to eql ["default_admin", true]
   end
 
 
   it "#add_employee" do
-    employee = ["sasunday", "false"]
+    employee = ["sasunday", false]
     @logger.add_employee(employee)
     expect(@logger.employee_data[0]).to eql employee
   end

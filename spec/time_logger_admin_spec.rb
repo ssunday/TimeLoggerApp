@@ -9,7 +9,7 @@ describe TimeLoggerAdmin do
   describe "#authorize_user" do
 
     it "returns true for user that is in system" do
-      employee = ["jjam", "false"]
+      employee = ["jjam", false]
       user = "jjam"
       expect(@admin.authorize_user(user, [employee[0]])).to eql true
     end
@@ -24,12 +24,12 @@ describe TimeLoggerAdmin do
   describe "#admin_from_authorized_username?" do
 
     it "returns true if user is admin" do
-      employee = ["sasunday", "true"]
+      employee = ["sasunday", true]
       expect(@admin.admin_from_authorized_username?(employee[0], [employee])).to eql true
     end
 
     it "returns false if user is not admin" do
-      employee = ["sasunday", "false"]
+      employee = ["sasunday", false]
       expect(@admin.admin_from_authorized_username?(employee[0], [employee])).to eql false
     end
 

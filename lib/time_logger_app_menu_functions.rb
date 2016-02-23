@@ -1,6 +1,6 @@
 require 'date'
 
-module TimeLoggerAppFunctions
+module TimeLoggerAppMenuFunctions
 
   AVAILABLE_TIMECODES = ["Billable Work",
                         "Non-billable work",

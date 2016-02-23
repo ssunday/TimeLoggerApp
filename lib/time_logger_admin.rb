@@ -6,7 +6,7 @@ class TimeLoggerAdmin
 
   def admin_from_authorized_username?(username, employee_data)
     username_index = employee_data.index(employee_data.detect{|aa| aa.include?(username)})
-    employee_data[username_index][1].eql?("true")
+    employee_data[username_index][1]
   end
 
 end

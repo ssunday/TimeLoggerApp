@@ -1,6 +1,6 @@
 require "csv"
 
-class TimeLoggerDataLogging
+class TimeLoggerDataRepository
 
   def initialize(filenames = {})
     @time_log_file_name = filenames[:time_log_file_name]
@@ -105,7 +105,8 @@ class TimeLoggerDataLogging
   end
 
   def employee_data
-    CSV.read(@employees_file_name)
+    employee_data = CSV.read(@employees_file_name)
+    employee_data.collect {|ind| [ind[0], ind[1].eql?("true")]}.compact
   end
 
   def read_time_log_data

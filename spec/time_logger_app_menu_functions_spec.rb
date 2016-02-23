@@ -1,8 +1,8 @@
-require "time_logger_app_functions"
+require "time_logger_app_menu_functions"
 
-include TimeLoggerAppFunctions
+include TimeLoggerAppMenuFunctions
 
-describe TimeLoggerAppFunctions do
+describe TimeLoggerAppMenuFunctions do
 
   before do
     @employee_list = ["jjam", "bbob", "zwane"]

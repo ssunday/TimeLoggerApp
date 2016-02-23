@@ -1,11 +1,11 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require "time_logger_admin"
-require "time_logger_app_functions"
+require "time_logger_app_menu_functions"
 
 class TimeLoggerApp
 
-  include TimeLoggerAppFunctions
+  include TimeLoggerAppMenuFunctions
 
   def initialize(input_output, data_logging)
     @io = input_output

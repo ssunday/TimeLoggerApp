@@ -1,8 +1,7 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-
-require '../lib/time_logger_app'
-require '../lib/time_logger_input_output'
-require '../lib/time_logger_data_repository'
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), ".." , "lib"))
+require 'time_logger_app'
+require 'time_logger_input_output'
+require 'time_logger_data_repository'
 
 class TimeLoggerAppRunner
 

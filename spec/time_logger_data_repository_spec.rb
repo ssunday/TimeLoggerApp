@@ -45,7 +45,6 @@ describe TimeLoggerDataRepository do
 
   end
 
-
   it "can retrieve array of all rows" do
     no_client = no_client_log
     client = client_log

@@ -66,7 +66,7 @@ class TimeLoggerMockIO
   end
 
   def get_client_name(client_names)
-    @client_name
+    [@client_name]
   end
 
   def display_hours_worked_in_month(date_list, hours_worked_in_each)

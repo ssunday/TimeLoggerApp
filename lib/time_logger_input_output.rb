@@ -108,7 +108,7 @@ class TimeLoggerInputOutput
     year = date_collection[2].to_i
     month = date_collection[1].to_i
     day = date_collection[0].to_i
-    Date.valid_date?(year, month, day ) == false || Date.parse(inputted_date) > Date.today
+    Date.valid_date?(year, month, day) == false || Date.parse(inputted_date) > Date.today
   end
 
   def get_employee_username(employee_names)

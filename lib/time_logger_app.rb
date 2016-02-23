@@ -48,9 +48,8 @@ class TimeLoggerApp
   def employee_log_time
     date_and_time = @io.specify_date_and_time
     hours = @io.hours_worked
-    timecode_selection = @io.select_timecode(AVAILABLE_TIMECODES) - 1
-    timecode = get_timecode(timecode_selection)
-    client = billable_work?(timecode) ? @data_logging.client_names[@io.select_client(@data_logging.client_names) - 1] : nil
+    timecode = @io.select_timecode(AVAILABLE_TIMECODES)
+    client = billable_work?(timecode) ? @io.select_client(@data_logging.client_names) : nil
     @data_logging.log_time([@username, date_and_time, hours, timecode, client])
   end
 

@@ -42,13 +42,13 @@ class TimeLoggerInputOutput
   def select_timecode(available_timecodes)
     puts "Choose one of the following time codes by selecting the number:"
     iterate_through_list_with_numbers(available_timecodes)
-    select_option
+    available_timecodes[select_option - 1]
   end
 
   def select_client(clients)
     puts "Please select client: "
     iterate_through_list_with_numbers(clients)
-    select_option
+    clients[select_option - 1]
   end
 
   def select_option

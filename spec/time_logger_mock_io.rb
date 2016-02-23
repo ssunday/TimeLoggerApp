@@ -1,7 +1,7 @@
 class TimeLoggerMockIO
 
-  attr_writer :username, :client_name, :client_name_index, :date, :hours, \
-              :timecode_index, :employee_name, :employee_is_admin, \
+  attr_writer :username, :client_name, :date, :hours, \
+              :time_code, :employee_name, :employee_is_admin, \
               :option, :time
 
   def initialize
@@ -11,7 +11,7 @@ class TimeLoggerMockIO
     @time = "10:10"
     @hours = 5
     @client_name = "Foo"
-    @timecode_index = 1
+    @time_code = "PTO"
     @employee_name = "John"
     @employee_is_admin = "false"
     @option = 1
@@ -43,11 +43,11 @@ class TimeLoggerMockIO
   end
 
   def select_timecode(available_timecodes)
-    @timecode_index
+    @time_code
   end
 
   def select_client(clients)
-    @client_name_index
+    @client_name
   end
 
   def select_option(menu_length)

@@ -45,26 +45,6 @@ describe TimeLoggerAppMenuFunctions do
 
   end
 
-  describe "#get_timecode" do
-
-    it "returns 1st available timecodes for 0" do
-      expected_value = AVAILABLE_TIMECODES[0]
-      expect(get_timecode(0)).to eql expected_value
-    end
-
-    it "returns 2nd available timecodes for 1" do
-      expected_value = AVAILABLE_TIMECODES[1]
-      expect(get_timecode(1)).to eql expected_value
-    end
-
-    it "returns 3rd available timecodes for 2" do
-      expected_value = AVAILABLE_TIMECODES[2]
-      expect(get_timecode(2)).to eql expected_value
-    end
-
-  end
-
-
   describe "#assign_menu" do
 
     it "assigns admin menu for true is_admin value" do

@@ -51,7 +51,7 @@ describe TimeLoggerApp do
     name = "janice"
     hours = "10"
     date = "1/1/2015"
-    timecode = 2
+    timecode = TimeLoggerApp::AVAILABLE_TIMECODES[1]
     time = "8:19"
     @mock_io.employee_name = name
     @app.admin_add_employee
@@ -60,9 +60,9 @@ describe TimeLoggerApp do
     @mock_io.hours = hours
     @mock_io.date = date
     @mock_io.time = time
-    @mock_io.timecode_index = timecode
+    @mock_io.time_code = timecode
     @app.employee_log_time
-    expect(CSV.read(@time_log_test_file)[0]).to eql [name, date + " " + time, hours, TimeLoggerApp::AVAILABLE_TIMECODES[timecode-1], nil]
+    expect(CSV.read(@time_log_test_file)[0]).to eql [name, date + " " + time, hours, timecode, nil]
   end
 
   it "#do_menu_option returns false when employee selects logout" do

@@ -21,10 +21,6 @@ module TimeLoggerAppMenuFunctions
     is_admin ? MENU_ADMIN : MENU_EMPLOYEE
   end
 
-  def get_timecode(timecode_selection)
-    timecode = AVAILABLE_TIMECODES[timecode_selection]
-  end
-
   def billable_work?(timecode)
     timecode.eql?("Billable Work")
   end

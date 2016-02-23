@@ -1,5 +1,3 @@
-require 'date'
-
 module TimeLoggerAppMenuFunctions
 
   AVAILABLE_TIMECODES = ["Billable Work",

@@ -1,4 +1,4 @@
-class TimeLoggerAdmin
+module TimeLoggerAdmin
 
   def authorize_user(username, employee_names)
     employee_names.include?(username)

@@ -1,15 +1,14 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-
 require "time_logger_admin"
 require "time_logger_app_menu_functions"
 
 class TimeLoggerApp
 
+  include TimeLoggerAdmin
   include TimeLoggerAppMenuFunctions
 
   def initialize(input_output, data_logging)
     @io = input_output
-    @admin = TimeLoggerAdmin.new
     @data_logging = data_logging
     @in_use = true
   end
@@ -87,7 +86,7 @@ class TimeLoggerApp
 
   def get_username
     @username = @io.input_username
-    while @admin.authorize_user(@username, @data_logging.employee_names) == false
+    while authorize_user(@username, @data_logging.employee_names) == false
       @io.bad_user_name
       @username = @io.input_username
     end
@@ -96,7 +95,7 @@ class TimeLoggerApp
   private
 
   def assign_whether_admin_or_not
-    @is_admin = @admin.admin_from_authorized_username?(@username, @data_logging.employee_data)
+    @is_admin = admin_from_authorized_username?(@username, @data_logging.employee_data)
   end
 
 end

@@ -1,3 +1,5 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
 require "time_logger_menu_option"
 
 class TimeLoggerAddClientOption < TimeLoggerMenuOption

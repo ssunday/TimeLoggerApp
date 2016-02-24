@@ -1,6 +1,8 @@
-class TimeLoggerLogoutOption
+require "time_logger_menu_option"
 
-  def execute(data_logging, io, username, timecodes)
+class TimeLoggerLogoutOption < TimeLoggerAppMenuOption
+
+  def execute(data_logging, io, username)
     io.end_message
     false
   end

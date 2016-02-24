@@ -57,7 +57,7 @@ class TimeLoggerMockIO
     @option
   end
 
-  def bad_option
+  def invalid_option_message
   end
 
   def specify_date_and_time

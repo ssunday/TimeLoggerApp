@@ -2,13 +2,4 @@ default_admin,true
 s1,true
 bob,false
 jane,true
-john,false
-john_smith,false
-bbbbbb,false
-jill,false
-kk,false
-ww2,true
-kilgrave,false
-Williamson,false
-williamson1,true
-JJ,false
+bobby,true

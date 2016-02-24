@@ -1,28 +1,29 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require "time_logger_admin"
-require "time_logger_app_menu_functions"
-require "time_logger_app_menu"
 
 class TimeLoggerApp
 
   include TimeLoggerAdmin
-  include TimeLoggerAppMenuFunctions
 
-  def initialize(input_output, data_logging)
+  def initialize(input_output, data_logging, menu)
     @io = input_output
     @data_logging = data_logging
     @in_use = true
+    @menu = menu
   end
 
-  def run
+  def start_app
     @io.welcome_message
     get_username
     assign_whether_admin_or_not
-    menu = TimeLoggerMenu.new(@data_logging, @io, @is_admin, @username)
+  end
+
+  def run
+    start_app
     while @in_use != false
-      @io.display_menu(menu.options)
+      @io.display_menu(@menu.options)
       option = @io.select_option
-      @in_use = menu.do_menu_option(option)
+      @in_use = @menu.do_menu_option(option, @username)
     end
   end
 
@@ -37,7 +38,8 @@ class TimeLoggerApp
   private
 
   def assign_whether_admin_or_not
-    @is_admin = admin_from_authorized_username?(@username, @data_logging.employee_data)
+    is_admin = admin_from_authorized_username?(@username, @data_logging.employee_data)
+    @menu.assign_menu_based_on_whether_employee_is_admin(is_admin)
   end
 
 end

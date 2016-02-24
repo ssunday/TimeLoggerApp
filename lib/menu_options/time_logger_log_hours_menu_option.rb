@@ -1,7 +1,10 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 
-class TimeLoggerLogHoursMenuOption
+require "time_logger_menu_option"
 
-  def execute(data_logging, io, username, timecodes)
+class TimeLoggerLogHoursMenuOption < TimeLoggerAppMenuOption
+
+  def execute(data_logging, io, username)
     date_and_time = io.specify_date_and_time
     hours = io.get_hours_worked
     timecode = io.select_timecode(timecodes)
@@ -11,10 +14,6 @@ class TimeLoggerLogHoursMenuOption
 
   def to_s
     "Enter Hours"
-  end
-
-  def billable_work?(timecode)
-    timecode.eql?("Billable Work")
   end
 
 end

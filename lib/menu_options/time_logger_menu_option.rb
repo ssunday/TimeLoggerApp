@@ -1,22 +1,19 @@
-module TimeLoggerAppMenuFunctions
+
+class TimeLoggerAppMenuOption
 
   AVAILABLE_TIMECODES = ["Billable Work",
                         "Non-billable work",
                         "PTO"]
 
-  MENU_EMPLOYEE = ["Enter Hours",
-                  "Report Current Month's Time",
-                  "Log out"]
+  def execute(logger, io, username)
+  end
 
-  MENU_ADMIN = ["Enter Hours",
-                "Report Current Month's Time",
-                "All Employee's Report",
-                "Add Employee" ,
-                "Add Client",
-                "Log out"]
+  def to_s
+    "Default Option. Does nothing."
+  end
 
-  def assign_menu(is_admin)
-    is_admin ? MENU_ADMIN : MENU_EMPLOYEE
+  def timecodes
+    AVAILABLE_TIMECODES
   end
 
   def billable_work?(timecode)
@@ -33,8 +30,6 @@ module TimeLoggerAppMenuFunctions
     end
     hours_worked
   end
-
-  private
 
   def specific_attribute_valid?(specific_attribute, all_attributes)
     specific_attribute != nil &&

@@ -62,7 +62,7 @@ class TimeLoggerInputOutput
   end
 
   def invalid_option_message
-    puts "That is an invalid option. Please try again."
+    puts "\nThat is an invalid option. Please try again."
   end
 
   def get_employee_info(employee_names)

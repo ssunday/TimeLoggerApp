@@ -1,6 +1,8 @@
-class TimeLoggerAddClientOption
+require "time_logger_menu_option"
 
-  def execute(data_logging, io, username, timecodes)
+class TimeLoggerAddClientOption < TimeLoggerAppMenuOption
+
+  def execute(data_logging, io, username)
     client_name = io.get_client_name(data_logging.client_names)
     data_logging.add_client(client_name)
   end

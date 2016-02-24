@@ -19,7 +19,7 @@ class TimeLoggerInputOutput
     gets.chomp
   end
 
-  def bad_user_name
+  def username_is_not_in_system_message
     puts "Sorry, but that username is not in our system."
   end
 
@@ -29,7 +29,7 @@ class TimeLoggerInputOutput
     date + " " + time
   end
 
-  def hours_worked
+  def get_hours_worked
     puts "Enter Hours Worked:"
     hours = gets.chomp
     while hours =~ /\A\d+\z/ ? false : true
@@ -52,16 +52,16 @@ class TimeLoggerInputOutput
   end
 
   def select_option
-    puts "Please select which option by choosing the number."
+    puts "\nPlease select which option by choosing the number."
     option = gets.chomp
     while option =~ /\A\d+\z/ ? false : true
-      bad_option
+      invalid_option_message
       option = gets.chomp
     end
     option.to_i
   end
 
-  def bad_option
+  def invalid_option_message
     puts "That is an invalid option. Please try again."
   end
 
@@ -165,7 +165,6 @@ class TimeLoggerInputOutput
       for i in 0..(name_list.length - 1)
         puts "#{name_list[i]}: #{hours_list[i]} hours."
       end
-      puts "\n"
     end
   end
 
@@ -174,7 +173,6 @@ class TimeLoggerInputOutput
     for counter in 1..(specified_list.length)
       puts "#{counter}: #{specified_list[counter-1]}"
     end
-    puts "\n"
   end
 
 end

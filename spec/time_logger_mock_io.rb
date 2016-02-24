@@ -17,6 +17,9 @@ class TimeLoggerMockIO
     @option = 1
   end
 
+  def display_menu(menu_option)
+  end
+
   def welcome_message
   end
 
@@ -50,7 +53,7 @@ class TimeLoggerMockIO
     @client_name
   end
 
-  def select_option(menu_length)
+  def select_option
     @option
   end
 

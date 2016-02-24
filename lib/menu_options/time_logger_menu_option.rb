@@ -1,15 +1,20 @@
 
-class TimeLoggerAppMenuOption
+class TimeLoggerMenuOption
 
   AVAILABLE_TIMECODES = ["Billable Work",
                         "Non-billable work",
                         "PTO"]
 
+  def initialize
+    @option_description = "Default Option."
+  end
+
   def execute(logger, io, username)
+    false
   end
 
   def to_s
-    "Default Option. Does nothing."
+     @option_description
   end
 
   def timecodes

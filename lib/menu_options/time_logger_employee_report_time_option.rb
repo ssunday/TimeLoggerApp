@@ -1,6 +1,10 @@
 require "time_logger_menu_option"
 
-class TimeLoggerEmployeeReportTimeOption < TimeLoggerAppMenuOption
+class TimeLoggerEmployeeReportTimeOption < TimeLoggerMenuOption
+
+  def initialize
+    @option_description = "Your Current Month Report"
+  end
 
   def execute(data_logging, io, username)
     date_list = data_logging.get_list_of_dates_worked_in_month_by_user(username)
@@ -14,27 +18,5 @@ class TimeLoggerEmployeeReportTimeOption < TimeLoggerAppMenuOption
     io.display_hours_worked_per_client(data_logging.client_names, client_hours)
     io.display_hours_worked_in_month(date_list, hours_worked_in_month)
   end
-
-  def to_s
-    "Your Current Month Report"
-  end
-
-  # private
-  #
-  # def collect_hours_worked_by_specification(all_attributes, attributes_and_hours)
-  #   hours_worked = Array.new(all_attributes.length, 0)
-  #   attributes_and_hours.each do |specific_attribute, hours|
-  #     if specific_attribute_valid?(specific_attribute, all_attributes)
-  #       specific_attribute_index = all_attributes.index(all_attributes.detect{|aa| aa.include?(specific_attribute)})
-  #       hours_worked[specific_attribute_index] += hours
-  #     end
-  #   end
-  #   hours_worked
-  # end
-  #
-  # def specific_attribute_valid?(specific_attribute, all_attributes)
-  #   specific_attribute != nil &&
-  #   all_attributes.index(all_attributes.detect{|aa| aa.include?(specific_attribute)}) != nil
-  # end
 
 end

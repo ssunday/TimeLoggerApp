@@ -1,12 +1,12 @@
 require "menu_options/time_logger_menu_option"
 
-describe TimeLoggerAppMenuOption do
+describe TimeLoggerMenuOption do
 
   before do
     @employee_list = ["jjam", "bbob", "zwane"]
     @employee_and_admin_list = [["jjam", true], ["bbob", false] , ["zwane", false]]
     @client_names = ["Foogle", "Bar"]
-    @default_option = TimeLoggerAppMenuOption.new
+    @default_option = TimeLoggerMenuOption.new
   end
 
   describe "#collect_hours_worked_by_specification" do
@@ -42,6 +42,18 @@ describe TimeLoggerAppMenuOption do
       expect(@default_option.billable_work?(timecode)).to eql true
     end
 
+  end
+
+  it "#execute returns false" do
+    expect(@default_option.execute(nil,nil,nil)).to eql false
+  end
+
+  it "#to_s returns string" do
+    expect(@default_option.to_s).to be_an_instance_of(String)
+  end
+
+  it "#timecodes returns available timecodes array" do
+    expect(@default_option.timecodes).to eql TimeLoggerMenuOption::AVAILABLE_TIMECODES
   end
 
 end

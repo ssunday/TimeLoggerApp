@@ -13,7 +13,7 @@ class TimeLoggerMockIO
     @client_name = nil
     @time_code = "PTO"
     @employee_name = "John"
-    @employee_is_admin = "false"
+    @employee_is_admin = false
     @option = 1
   end
 
@@ -64,12 +64,16 @@ class TimeLoggerMockIO
     @date + " " + @time
   end
 
-  def get_employee_info(employee_names)
-    [@employee_name, @employee_is_admin]
+  def get_employee_username(names)
+    @employee_name
+  end
+
+  def get_whether_employee_admin
+    @employee_is_admin
   end
 
   def get_client_name(client_names)
-    [@client_name]
+    @client_name
   end
 
   def display_hours_worked_in_month(date_list, hours_worked_in_each)

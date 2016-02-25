@@ -1,12 +1,12 @@
 require "menu_options/time_logger_add_employee_option"
 require "time_logger_mock_io"
-require "time_logger_mock_data_repository"
+require "time_logger_mock_data_interface"
 
 describe TimeLoggerAddEmployeeOption do
 
   before do
     @mock_io = TimeLoggerMockIO.new
-    @mock_data_repository = TimeLoggerMockDataRepository.new
+    @mock_data_interface = TimeLoggerMockDataInterface.new
     @add_employee_option = TimeLoggerAddEmployeeOption.new
   end
 
@@ -20,8 +20,8 @@ describe TimeLoggerAddEmployeeOption do
     @mock_io.employee_name = name
     @mock_io.employee_is_admin = is_admin
     username = "jill"
-    @add_employee_option.execute(@mock_data_repository, @mock_io, username)
-    expect(@mock_data_repository.employee_data[1]).to eql [name, is_admin.eql?("true")]
+    @add_employee_option.execute(@mock_data_interface, @mock_io, username)
+    expect(@mock_data_interface.get_employee_names_and_whether_they_are_admin[1]).to eql [name, is_admin.eql?("true")]
   end
 
 end

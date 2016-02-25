@@ -1,11 +1,11 @@
 require "time_logger_app_menu"
 require "time_logger_mock_io"
-require "time_logger_mock_data_repository"
+require "time_logger_mock_data_interface"
 
 describe TimeLoggerMenu do
 
   before do
-    @menu = TimeLoggerMenu.new(TimeLoggerMockIO.new, TimeLoggerMockDataRepository.new)
+    @menu = TimeLoggerMenu.new(TimeLoggerMockIO.new, TimeLoggerMockDataInterface.new)
   end
 
   describe "#assign_menu_based_on_whether_employee_is_admin" do

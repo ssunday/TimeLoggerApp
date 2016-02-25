@@ -1,29 +1,30 @@
-class TimeLoggerMockDataRepository
+class TimeLoggerMockDataInterface
 
-  def initialize(filenames = {})
+  def initialize
     @time_log = []
     @employees = []
     @clients = []
     initialize_employee_file
   end
 
-  def log_time(data_to_be_logged)
-    @time_log << data_to_be_logged
+  def log_employee_hours(args = {})
+    @time_log << [args[:username], args[:date_and_time], args[:hours], args[:timecode], args[:client]]
   end
 
-  def add_employee(employee_data)
+  def add_new_employee(args = {})
+    employee_data = [args[:employee_name], args[:is_admin]]
     @employees << employee_data
   end
 
-  def add_client(client_name)
-    @clients << client_name
+  def add_new_client(client_name)
+    @clients << [client_name]
   end
 
-  def client_names
+  def get_client_names
     @clients.flatten
   end
 
-  def employee_names
+  def get_employee_names
     @employees.collect(&:first)
   end
 
@@ -88,15 +89,15 @@ class TimeLoggerMockDataRepository
     dates.uniq
   end
 
-  def employee_data
+  def get_employee_names_and_whether_they_are_admin
     @employees.collect {|ind| [ind[0], ind[1].eql?("true")]}.compact
   end
 
-  def read_time_log_data
+  def get_all_time_logged
     @time_log
   end
 
-  def clear_data
+  def clear_all_data
     clear_time_log_data
     clear_client_file
     clear_employees_file

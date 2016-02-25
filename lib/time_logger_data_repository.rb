@@ -3,9 +3,9 @@ require "csv"
 class TimeLoggerDataRepository
 
   def initialize(filenames = {})
-    @time_log_file_name = filenames.fetch(:time_log_file_name, "/files/timelog.csv")
-    @employees_file_name = filenames.fetch(:employees_file_name, "/files/employees.csv")
-    @clients_file_name = filenames.fetch(:clients_file_name, "/files/clients.csv")
+    @time_log_file_name = filenames.fetch(:time_log_file_name, "files/timelog.csv")
+    @employees_file_name = filenames.fetch(:employees_file_name, "files/employees.csv")
+    @clients_file_name = filenames.fetch(:clients_file_name, "files/clients.csv")
     initialize_employee_file
   end
 
@@ -32,89 +32,11 @@ class TimeLoggerDataRepository
   end
 
   def client_names
-    CSV.read(@clients_file_name).flatten
-  end
-
-  def employee_names
-    employee_names = CSV.read(@employees_file_name)
-    employee_names.collect(&:first)
-  end
-
-  def employee_names_and_hours_for_current_month
-    time_log_data = CSV.read(@time_log_file_name)
-    time_log_data.collect {|ind|
-      if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year
-            [ind[0], ind [2].to_i]
-      end}.compact
-  end
-
-  def time_codes_and_hours_for_current_month
-    time_log_data = CSV.read(@time_log_file_name)
-    time_log_data.collect {|ind|
-      if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year
-            [ind[3], ind[2].to_i]
-      end}.compact
-  end
-
-  def time_codes_and_hours_for_current_month_and_username(username)
-    time_log_data = CSV.read(@time_log_file_name)
-    time_log_data.collect {|ind|
-      if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year \
-        && username.eql?(ind[0])
-            [ind[3], ind[2].to_i]
-      end}.compact
-  end
-
-  def client_names_and_hours_for_current_month
-    time_log_data = CSV.read(@time_log_file_name)
-    time_log_data.collect {|ind|
-        if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year
-            [ind[4], ind[2].to_i]
-        end}.compact
-  end
-
-  def client_names_and_hours_for_current_month_and_username(username)
-    time_log_data = CSV.read(@time_log_file_name)
-    time_log_data.collect {|ind|
-        if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year \
-          && username.eql?(ind[0])
-            [ind[4], ind[2].to_i]
-        end}.compact
-  end
-
-  def dates_and_hours_for_current_month_and_username(username)
-    time_log_data = CSV.read(@time_log_file_name)
-    time_log_data.collect {|ind|
-        if DateTime.parse(ind[1]).month == Date.today.month && DateTime.parse(ind[1]).year == Date.today.year \
-          && username.eql?(ind[0])
-            [DateTime.parse(ind[1]).strftime('%-d/%-m/%Y'), ind[2].to_i]
-        end}.compact
-  end
-
-  def get_list_of_dates_worked_in_month_by_user(username)
-    time_log_data = CSV.read(@time_log_file_name)
-    dates = []
-    time_log_data.each do |entry|
-      if entry[0].eql?(username)
-        date = DateTime.parse(entry[1])
-        if date.month == Date.today.month && date.year == Date.today.year
-          dates << entry[1]
-        end
-      end
-    end
-    dates = dates.map {|s| DateTime.parse(s)}
-    dates = dates.sort
-    dates = dates.map {|date| date.strftime('%-d/%-m/%Y')}
-    dates.uniq
+    CSV.read(@clients_file_name)
   end
 
   def get_employee_data
     CSV.read(@employees_file_name)
-  end
-
-  def employee_data
-    employee_data = CSV.read(@employees_file_name)
-    employee_data.collect {|ind| [ind[0], ind[1].eql?("true")]}.compact
   end
 
   def read_time_log_data

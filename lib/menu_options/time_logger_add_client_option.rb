@@ -9,8 +9,8 @@ class TimeLoggerAddClientOption < TimeLoggerMenuOption
   end
 
   def execute(data_logging, io, username)
-    client_name = io.get_client_name(data_logging.client_names)
-    data_logging.add_client(client_name)
+    client_name = io.get_client_name(data_logging.get_client_names)
+    data_logging.add_new_client(client_name)
   end
 
 end

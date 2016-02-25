@@ -92,10 +92,10 @@ describe TimeLoggerDataInterface do
     expect(@interface.time_codes_and_hours_for_current_month_and_username(client[0])).to eql [[client[3], client[2].to_i]]
   end
 
-  it "#get_employee_names_and_hours_for_current_month returns list of employees and hours for current month" do
+  it "#employee_names_and_hours_for_current_month returns list of employees and hours for current month" do
     client = client_log
     no_client = no_client_log
-    expect(@interface.get_employee_names_and_hours_for_current_month).to eql [[client[0], client[2].to_i], [no_client[0], no_client[2].to_i]]
+    expect(@interface.employee_names_and_hours_for_current_month).to eql [[client[0], client[2].to_i], [no_client[0], no_client[2].to_i]]
   end
 
   it "#get_employee_names returns list of just employee_names" do

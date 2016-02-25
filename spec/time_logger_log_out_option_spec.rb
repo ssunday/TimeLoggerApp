@@ -1,12 +1,12 @@
 require "menu_options/time_logger_log_out_option"
 require "time_logger_mock_io"
-require "time_logger_mock_data_repository"
+require "time_logger_mock_data_interface"
 
 describe TimeLoggerAddEmployeeOption do
 
   before do
     @mock_io = TimeLoggerMockIO.new
-    @mock_data_repository = TimeLoggerMockDataRepository.new
+    @mock_data_interface = TimeLoggerMockDataInterface.new
     @logout = TimeLoggerLogoutOption.new
     @username = "jill"
   end
@@ -16,7 +16,7 @@ describe TimeLoggerAddEmployeeOption do
   end
 
   it "#execute returns false" do
-    expect(@logout.execute(@mock_data_repository, @mock_io, @username)).to eql false
+    expect(@logout.execute(@mock_data_interface, @mock_io, @username)).to eql false
   end
 
 end

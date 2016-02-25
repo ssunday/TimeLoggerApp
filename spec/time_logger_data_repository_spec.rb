@@ -55,74 +55,28 @@ describe TimeLoggerDataRepository do
     default_admin = TimeLoggerDataRepository.new(time_log_file_name: @file_name,
                                               clients_file_name: @clients_file_name,
                                               employees_file_name: @employees_file_name)
-    expect(@logger.employee_data[0]).to eql ["default_admin", true]
+    expect(@logger.get_employee_data[0]).to eql ["default_admin", "true"]
   end
 
 
   it "#add_employee" do
-    employee = ["sasunday", false]
+    employee = ["sasunday", "false"]
     @logger.add_employee(employee)
-    expect(@logger.employee_data[0]).to eql employee
-  end
-
-  it "#client_names_and_hours_for_current_month returns list of client names and hours for current month" do
-    client = client_log
-    expect(@logger.client_names_and_hours_for_current_month).to eql [[client[4], client[2].to_i]]
-  end
-
-  describe "#client_names_and_hours_for_current_month_and_username" do
-
-    it "returns empty list when username does not have any matches" do
-      client = client_log
-      expect(@logger.client_names_and_hours_for_current_month_and_username("Someone else")).to eql []
-    end
-
-    it "returns list of client names and hours for current month and specific username" do
-      client = client_log
-      expect(@logger.client_names_and_hours_for_current_month_and_username(client[0])).to eql [[client[4], client[2].to_i]]
-    end
-
-  end
-
-
-  it "#time_codes_and_hours_for_current_month returns list of timecodes and hours for current month" do
-    client = client_log
-    no_client = no_client_log
-    expect(@logger.time_codes_and_hours_for_current_month).to eql [[client[3], client[2].to_i], [no_client[3], no_client[2].to_i]]
-  end
-
-  it "#time_codes_and_hours_for_current_month_and_username returns list of timecodes and hours for current month and specific username" do
-    client = client_log
-    no_client = no_client_log
-    expect(@logger.time_codes_and_hours_for_current_month_and_username(client[0])).to eql [[client[3], client[2].to_i]]
-  end
-
-  it "#employee_names_and_hours_for_current_month returns list of employees and hours for current month" do
-    client = client_log
-    no_client = no_client_log
-    expect(@logger.employee_names_and_hours_for_current_month).to eql [[client[0], client[2].to_i], [no_client[0], no_client[2].to_i]]
-  end
-
-  it "#employee_names returns list of just employee_names" do
-    employee1 = ["sasunday", "false"]
-    employee2 = ["john", "true"]
-    @logger.add_employee(employee1)
-    @logger.add_employee(employee2)
-    expect(@logger.employee_names).to eql [employee1[0], employee2[0]]
+    expect(@logger.get_employee_data[0]).to eql employee
   end
 
   it "#add_client" do
     client_name = ["Generic Company Name"]
     @logger.add_client(client_name)
-    expect(@logger.client_names).to eql client_name
+    expect(@logger.client_names).to eql [client_name]
   end
 
-  it "#client_names returns one-d array of client names" do
+  it "#client_names returns array of client names" do
     client_name1 = ["Generic Company Name"]
     client_name2 = ["Foogle"]
     @logger.add_client(client_name1)
     @logger.add_client(client_name2)
-    expect(@logger.client_names).to eql [client_name1[0], client_name2[0]]
+    expect(@logger.client_names).to eql [client_name1, client_name2]
   end
 
   it "#clear_client_file" do
@@ -136,7 +90,7 @@ describe TimeLoggerDataRepository do
     employee = ["sasunday", "false"]
     @logger.add_employee(employee)
     @logger.clear_employees_file
-    expect(@logger.employee_data.length).to eql 0
+    expect(@logger.get_employee_data.length).to eql 0
   end
 
 end

@@ -29,7 +29,7 @@ class TimeLoggerApp
 
   def get_username
     @username = @io.input_username
-    while authorize_user(@username, @data_logging.employee_names) == false
+    while authorize_user(@username, @data_logging.get_employee_names) == false
       @io.username_is_not_in_system_message
       @username = @io.input_username
     end
@@ -38,7 +38,7 @@ class TimeLoggerApp
   private
 
   def assign_whether_admin_or_not
-    is_admin = admin_from_authorized_username?(@username, @data_logging.employee_data)
+    is_admin = admin_from_authorized_username?(@username, @data_logging.get_employee_names_and_whether_they_are_admin)
     @menu.assign_menu_based_on_whether_employee_is_admin(is_admin)
   end
 

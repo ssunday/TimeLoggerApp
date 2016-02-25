@@ -65,10 +65,24 @@ class TimeLoggerInputOutput
     puts "\nThat is an invalid option. Please try again."
   end
 
-  def get_employee_info(employee_names)
-    username = get_employee_username(employee_names)
-    is_admin = get_whether_employee_admin
-    [username, is_admin]
+  def get_employee_username(employee_names)
+    puts "Please enter employee's username."
+    username = gets.chomp
+    while employee_names.include?(username)
+      puts "Sorry, that username is already taken. Please enter a new one."
+      username = gets.chomp
+    end
+    username
+  end
+
+  def get_whether_employee_admin
+    puts "Please enter true if they are admin and false if they are not."
+    is_admin = gets.chomp
+    while is_admin != "true" &&  is_admin != "false"
+      puts "Invalid option. Try again."
+      is_admin = gets.chomp
+    end
+    is_admin.eql?("true")
   end
 
   def get_client_name(client_names)
@@ -78,7 +92,7 @@ class TimeLoggerInputOutput
       puts "Sorry, that client already exists. Please enter a new one."
       new_client = gets.chomp
     end
-    [new_client]
+    new_client
   end
 
   def display_hours_worked_in_month(date_list, hours_worked_in_each)
@@ -111,25 +125,6 @@ class TimeLoggerInputOutput
     Date.valid_date?(year, month, day) == false || Date.parse(inputted_date) > Date.today
   end
 
-  def get_employee_username(employee_names)
-    puts "Please enter employee's username."
-    username = gets.chomp
-    while employee_names.include?(username)
-      puts "Sorry, that username is already taken. Please enter a new one."
-      username = gets.chomp
-    end
-    username
-  end
-
-  def get_whether_employee_admin
-    puts "Please enter true if they are admin and false if they are not."
-    is_admin = gets.chomp
-    while is_admin != "true" &&  is_admin != "false"
-      puts "Invalid option. Try again."
-      is_admin = gets.chomp
-    end
-    is_admin.eql?("true")
-  end
 
   def specify_date
     puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."

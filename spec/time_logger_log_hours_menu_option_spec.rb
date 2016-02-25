@@ -1,12 +1,12 @@
 require "menu_options/time_logger_log_hours_menu_option"
 require "time_logger_mock_io"
-require "time_logger_mock_data_repository"
+require "time_logger_mock_data_interface"
 
 describe TimeLoggerLogHoursMenuOption do
 
   before do
     @mock_io = TimeLoggerMockIO.new
-    @mock_data_repository = TimeLoggerMockDataRepository.new
+    @mock_data_interface = TimeLoggerMockDataInterface.new
     @log_hours = TimeLoggerLogHoursMenuOption.new
     @username = "jameson"
   end
@@ -16,7 +16,7 @@ describe TimeLoggerLogHoursMenuOption do
   end
 
   it "#execute returns nested array containing time logged" do
-    expect(@log_hours.execute(@mock_data_repository, @mock_io, @username)).to eql [[@username,
+    expect(@log_hours.execute(@mock_data_interface, @mock_io, @username)).to eql [[@username,
                                                                         @mock_io.date + " " + @mock_io.time,
                                                                         @mock_io.hours,
                                                                         @mock_io.time_code,

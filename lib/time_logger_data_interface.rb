@@ -2,10 +2,8 @@ require 'time_logger_data_repository'
 
 class TimeLoggerDataInterface
 
-  def initialize(filenames = {})
-    @data_repository = TimeLoggerDataRepository.new(time_log_file_name: filenames[:time_log_file_name],
-                                clients_file_name: filenames[:clients_file_name],
-                                employees_file_name: filenames[:employees_file_name])
+  def initialize
+    @data_repository = TimeLoggerDataRepository.new
   end
 
   def log_employee_hours(args = {})
@@ -23,13 +21,6 @@ class TimeLoggerDataInterface
     @data_repository.add_employee(employee_data)
   end
 
-  def get_employee_names_and_hours_for_current_month
-    get_all_time_logged.collect {|time_logged_information|
-      if date_in_current_month?(time_logged_information[1])
-            [time_logged_information[0], time_logged_information[2].to_i]
-      end}.compact
-  end
-
 
   def get_employee_names
     @data_repository.get_employee_data.collect(&:first)
@@ -41,6 +32,13 @@ class TimeLoggerDataInterface
 
   def get_client_names
     @data_repository.client_names.flatten
+  end
+
+  def employee_names_and_hours_for_current_month
+    get_all_time_logged.collect {|time_logged_information|
+      if date_in_current_month?(time_logged_information[1])
+            [time_logged_information[0], time_logged_information[2].to_i]
+      end}.compact
   end
 
   def time_codes_and_hours_for_current_month
@@ -71,6 +69,29 @@ class TimeLoggerDataInterface
           username.eql?(time_logged_information[0])
             [time_logged_information[4], time_logged_information[2].to_i]
         end}.compact
+  end
+
+  def dates_and_hours_for_current_month_and_username(username)
+    get_all_time_logged.collect {|time_logged_information|
+        if date_in_current_month?(time_logged_information[1]) && \
+          username.eql?(time_logged_information[0])
+            [DateTime.parse(time_logged_information[1]).strftime('%-d/%-m/%Y'), time_logged_information[2].to_i]
+        end}.compact
+  end
+
+  def get_list_of_dates_worked_in_month_by_user(username)
+    dates = []
+    get_all_time_logged.each do |entry|
+      if entry[0].eql?(username)
+        if date_in_current_month?(entry[1])
+          dates << entry[1]
+        end
+      end
+    end
+    dates = dates.map {|s| DateTime.parse(s)}
+    dates = dates.sort
+    dates = dates.map {|date| date.strftime('%-d/%-m/%Y')}
+    dates.uniq
   end
 
   def get_all_time_logged

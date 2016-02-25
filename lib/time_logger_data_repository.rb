@@ -3,9 +3,9 @@ require "csv"
 class TimeLoggerDataRepository
 
   def initialize(filenames = {})
-    @time_log_file_name = filenames.fetch(:time_log_file_name, "files/timelog.csv")
-    @employees_file_name = filenames.fetch(:employees_file_name, "files/employees.csv")
-    @clients_file_name = filenames.fetch(:clients_file_name, "files/clients.csv")
+    @time_log_file_name = filenames[:time_log_file_name]
+    @employees_file_name = filenames[:employees_file_name]
+    @clients_file_name = filenames[:clients_file_name]
     initialize_employee_file
   end
 

@@ -10,8 +10,8 @@ describe TimeLoggerAddClientOption do
     @add_client_option = TimeLoggerAddClientOption.new
   end
 
-  it "#to_s returns 'Add Client'" do
-    expect(@add_client_option.to_s).to eql "Add Client"
+  it "#to_s returns string" do
+    expect(@add_client_option.to_s).to be_an_instance_of(String)
   end
 
   it "#execute adds client to data repository" do

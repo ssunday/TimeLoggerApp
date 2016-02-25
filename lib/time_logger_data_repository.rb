@@ -9,6 +9,10 @@ class TimeLoggerDataRepository
     initialize_employee_file
   end
 
+  def time_log_data
+    CSV.read(@time_log_file_name)
+  end
+
   def log_time(data_to_be_logged)
     CSV.open(@time_log_file_name, "ab") do |csv|
       csv << data_to_be_logged

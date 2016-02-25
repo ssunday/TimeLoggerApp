@@ -1,6 +1,6 @@
 class TimeLoggerMockIO
 
-  attr_writer :username, :client_name, :date, :hours, \
+  attr_accessor :username, :client_name, :date, :hours, \
               :time_code, :employee_name, :employee_is_admin, \
               :option, :time
 
@@ -10,7 +10,7 @@ class TimeLoggerMockIO
     @date = "2/2/2016"
     @time = "10:10"
     @hours = 5
-    @client_name = "Foo"
+    @client_name = nil
     @time_code = "PTO"
     @employee_name = "John"
     @employee_is_admin = "false"
@@ -41,7 +41,7 @@ class TimeLoggerMockIO
     @date
   end
 
-  def hours_worked
+  def get_hours_worked
     @hours
   end
 

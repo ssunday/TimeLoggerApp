@@ -11,8 +11,8 @@ describe TimeLoggerAddEmployeeOption do
     @username = "jill"
   end
 
-  it "#to_s returns 'Add Client'" do
-    expect(@logout.to_s).to eql "Log out"
+  it "#to_s returns string" do
+    expect(@logout.to_s).to be_an_instance_of(String)
   end
 
   it "#execute returns false" do

@@ -11,9 +11,11 @@ module TimeLoggerHourReporting
     hours_worked
   end
 
+  private
+
   def specific_attribute_valid?(specific_attribute, all_attributes)
     specific_attribute != nil &&
     all_attributes.index(all_attributes.detect{|aa| aa.include?(specific_attribute)}) != nil
   end
-  
+
 end

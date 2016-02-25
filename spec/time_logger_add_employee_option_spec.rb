@@ -10,8 +10,8 @@ describe TimeLoggerAddEmployeeOption do
     @add_employee_option = TimeLoggerAddEmployeeOption.new
   end
 
-  it "#to_s returns 'Add Client'" do
-    expect(@add_employee_option.to_s).to eql "Add Employee"
+  it "#to_s returns string" do
+    expect(@add_employee_option.to_s).to be_an_instance_of(String)
   end
 
   it "#execute adds employee to data repository" do

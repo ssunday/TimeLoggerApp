@@ -3,9 +3,9 @@ require "csv"
 class TimeLoggerDataRepository
 
   def initialize(filenames = {})
-    @time_log_file_name = filenames[:time_log_file_name]
-    @employees_file_name = filenames[:employees_file_name]
-    @clients_file_name = filenames[:clients_file_name]
+    @time_log_file_name = filenames.fetch(:time_log_file_name, "/files/timelog.csv")
+    @employees_file_name = filenames.fetch(:employees_file_name, "/files/employees.csv")
+    @clients_file_name = filenames.fetch(:clients_file_name, "/files/clients.csv")
     initialize_employee_file
   end
 
@@ -32,8 +32,8 @@ class TimeLoggerDataRepository
   end
 
   def employee_names
-    time_log_data = CSV.read(@employees_file_name)
-    time_log_data.collect(&:first)
+    employee_names = CSV.read(@employees_file_name)
+    employee_names.collect(&:first)
   end
 
   def employee_names_and_hours_for_current_month
@@ -102,6 +102,10 @@ class TimeLoggerDataRepository
     dates = dates.sort
     dates = dates.map {|date| date.strftime('%-d/%-m/%Y')}
     dates.uniq
+  end
+
+  def get_employee_data
+    CSV.read(@employees_file_name)
   end
 
   def employee_data

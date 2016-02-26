@@ -12,7 +12,7 @@ class TimeLoggerEmployeeReportTimeOption < TimeLoggerMenuOption
   end
 
   def execute(data_logging, io, username)
-    date_list = data_logging.get_list_of_dates_worked_in_month_by_user(username)
+    date_list = data_logging.get_list_of_dates_worked_in_month_by_a_specific_user(username)
     project_hours = collect_hours_worked_by_specification(AVAILABLE_TIMECODES,
                         data_logging.time_codes_and_hours_for_current_month_and_username(username))
     client_hours = collect_hours_worked_by_specification(data_logging.get_client_names,

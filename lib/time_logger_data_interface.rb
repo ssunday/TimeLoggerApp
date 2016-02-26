@@ -62,13 +62,12 @@ class TimeLoggerDataInterface
         end}.compact
   end
 
-  def get_list_of_dates_worked_in_month_by_user(username)
-    dates = []
-    get_all_time_logged.each do |entry|
-      if entry[0].eql?(username) && date_in_current_month?(entry[1])
-        dates << entry[1]
-      end
-    end
+  def get_list_of_dates_worked_in_month_by_a_specific_user(username)
+    dates = get_all_time_logged.collect {|time_logged_information|
+        if date_in_current_month?(time_logged_information[1]) && \
+          username.eql?(time_logged_information[0])
+            time_logged_information[1]
+        end}.compact
     dates = dates.map {|s| DateTime.parse(s)}.sort
     dates.map {|date| date.strftime('%-d/%-m/%Y')}.uniq
   end

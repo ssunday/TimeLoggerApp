@@ -73,7 +73,7 @@ class TimeLoggerMockDataInterface
         end}.compact
   end
 
-  def get_list_of_dates_worked_in_month_by_user(username)
+  def get_list_of_dates_worked_in_month_by_a_specific_user(username)
     dates = []
     @time_log.each do |entry|
       if entry[0].eql?(username)

@@ -75,7 +75,7 @@ class TimeLoggerInputOutput
     username
   end
 
-  def get_whether_employee_admin
+  def get_whether_employee_is_admin
     puts "Please enter true if they are admin and false if they are not."
     is_admin = gets.chomp
     while is_admin != "true" &&  is_admin != "false"
@@ -124,7 +124,6 @@ class TimeLoggerInputOutput
     day = date_collection[0].to_i
     Date.valid_date?(year, month, day) == false || Date.parse(inputted_date) > Date.today
   end
-
 
   def specify_date
     puts "Input date you wish to add hours worked for in day/month/year format. Example: 15/7/2012."

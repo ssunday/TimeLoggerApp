@@ -68,7 +68,7 @@ class TimeLoggerMockIO
     @employee_name
   end
 
-  def get_whether_employee_admin
+  def get_whether_employee_is_admin
     @employee_is_admin
   end
 
